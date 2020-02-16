@@ -4,8 +4,10 @@ import com.James.corporateportraitplatforms.model.Company;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.stereotype.Repository;
 
 @Mapper
+@Repository
 public interface CompanyExtendMapper {
 
     @Select({

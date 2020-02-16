@@ -12,6 +12,9 @@ spring:
     url: jdbc:mysql://59.110.143.147:3306/bisai?serverTimezone=Asia/Shanghai
     username: bisai
     password: qihang123456789
+#    url: jdbc:mysql:///bisai?serverTimezone=Asia/Shanghai
+#    username: root
+#    password: 199944aa
 
 mybatis:
   configuration:

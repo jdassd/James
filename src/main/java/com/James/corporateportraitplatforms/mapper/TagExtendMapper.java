@@ -6,10 +6,12 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface TagExtendMapper {
 
     @Select("SELECT tag.tid,tag.tag FROM company_tag LEFT JOIN tag ON company_tag.tid = tag.tid WHERE cid = #{cid}")
