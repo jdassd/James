@@ -31,7 +31,7 @@ public interface TagMapper {
         "insert into tag (tag)",
         "values (#{tag,jdbcType=VARCHAR})"
     })
-    @SelectKey(statement="CALL IDENTITY()", keyProperty="tid", before=false, resultType=Integer.class)
+    @Options(useGeneratedKeys = true)
     int insert(Tag record);
 
     /**
