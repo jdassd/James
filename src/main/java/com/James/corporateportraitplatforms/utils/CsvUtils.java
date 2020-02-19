@@ -17,6 +17,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * CSV工具类
@@ -31,6 +32,8 @@ public class CsvUtils {
     private MoneyReportMapper moneyReportMapper2;
     @Autowired
     private YearReportMapper yearReportMapper2;
+
+    private static Map<Integer,Integer> flagsMap = null;
 
     private static KnowledgeReportMapper knowledgeReportMapper;
     private static CompanyMapper companyMapper;
@@ -129,7 +132,7 @@ public class CsvUtils {
     }
 
     /**
-     * 读取 downTemp 下的 csv 文件并存入mysql
+     * 读取 downTemp 下的 csv 文件和分析的数据存入mysql
      * @return
      */
     public static boolean importCsv(){
@@ -141,63 +144,69 @@ public class CsvUtils {
                 List<String> dataList = importCsv(file);
                 int size = 0;
                 if(!dataList.isEmpty()){
-                    for(int i = 0 ; i < dataList.size() ; i++){
-                        if(i != 0){//不是第一行
-                            String content = dataList.get(i);
-                            //System.out.println("内容测试： " + content);
-                            String[] contents = content.split(",");
-                            try {
-                                switch (size) {
-                                    case 4:
-                                        //knowledgeReport
-                                        if (knowledgeReportMapper.insert(new KnowledgeReport(null, contents[0], contents[1], contents[2], contents[3])) != 1) {
-                                            //deleteAll();
-                                            return false;
-                                        }
-                                        break;
-                                    case 9:
-                                        if (companyMapper.insert(new Company(contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], contents[8], null, null, null, null)) != 1) {
-                                            //deleteAll();
-                                            return false;
-                                        }
-                                        break;
-                                    case 10:
-                                        if (moneyReportMapper.insert(new MoneyReport(null, contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], contents[8], contents[9])) != 1) {
-                                            //deleteAll();
-                                            return false;
-                                        }
-                                        break;
-                                    case 11:
-                                        if (yearReportMapper.insert(new YearReport(null, contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], contents[8], contents[9], contents[10])) != 1) {
-                                            //deleteAll();
-                                            return false;
-                                        }
-                                        break;
-                                }
-                            }catch (Exception e){
-                                e.printStackTrace();
-                                //deleteAll();
-                                //System.out.println("插入数据库异常，清空数据库");
-                            }
-                            //System.out.println(size);
-                        }else{
-                            size = dataList.get(i).split(",").length;
+                    size = dataList.get(0).split(",").length;
+                    List list = null;
+                    switch (size){
+                        case 4:
+                            list = new ArrayList<KnowledgeReport>();
+                            break;
+                        case 9:
+                            list = new ArrayList<Company>();
+                            break;
+                        case 10:
+                            list = new ArrayList<MoneyReport>();
+                            break;
+                        case 11:
+                            list = new ArrayList<YearReport>();
+                            break;
+                    }
+                    for (int i = 1; i < dataList.size(); i++) {
+                        String content = dataList.get(i);
+                        //System.out.println("内容测试： " + content);
+                        String[] contents = content.split(",");
+                        switch (size) {
+                            case 4:
+                                list.add(new KnowledgeReport(null, contents[0], contents[1], contents[2], contents[3]));
+                                break;
+                            case 9:
+                                list.add(new Company(contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], flagsMap.get(Integer.parseInt(contents[0])) != null ? flagsMap.get(Integer.parseInt(contents[0])).toString() : "-1", null, null, null, null));
+                                break;
+                            case 10:
+                                list.add(new MoneyReport(null, contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], contents[8], contents[9]));
+                                break;
+                            case 11:
+                                list.add(new YearReport(null, contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], contents[8], contents[9], contents[10]));
+                                break;
                         }
+                    }
+                    switch (size){
+                        case 4:
+                            knowledgeReportMapper.insertBatch(list);
+                            break;
+                        case 9:
+                            companyMapper.insertBatch(list);
+                            break;
+                        case 10:
+                            moneyReportMapper.insertBatch(list);
+                            break;
+                        case 11:
+                            yearReportMapper.insertBatch(list);
+                            break;
                     }
                 }
             }
             //读取完的文件直接删除，清空目录
-            try {
-                FileUtils.cleanDirectory(dir);
-            } catch (IOException e) {
-                e.printStackTrace();
-                //System.out.println("清空目录失败");
-                //try {
-                //    Thread.sleep(3000);
-                //} catch (InterruptedException ex) {
-                //    ex.printStackTrace();
-                //}
-            }
+            //try {
+            //    FileUtils.cleanDirectory(dir);
+            //} catch (IOException e) {
+            //    e.printStackTrace();
+            //    //System.out.println("清空目录失败");
+            //    //try {
+            //    //    Thread.sleep(3000);
+            //    //} catch (InterruptedException ex) {
+            //    //    ex.printStackTrace();
+            //    //}
+            //}
             //System.out.println("读取完毕");
         }
         return true;
@@ -211,5 +220,36 @@ public class CsvUtils {
         companyMapper.deleteAll();
         moneyReportMapper.deleteAll();
         yearReportMapper.deleteAll();
+    }
+
+    /**
+     * 分析数据并调用 importCsv 方法
+     */
+    public static boolean analysis(){
+        String fileStr1 = null;
+        String fileStr2 = null;
+        File dir = new File("downTemp");
+        if(dir.exists()) {
+            String[] suffixes = {"csv"};
+            Collection<File> listFiles = FileUtils.listFiles(dir, suffixes, true);
+            for (File file : listFiles) {
+                List<String> dataList = importCsv(file);
+                int size = 0;
+                if (!dataList.isEmpty()) {
+                    size = dataList.get(0).split(",").length;
+                    switch (size) {
+                        case 10:
+                            fileStr2 = file.getAbsolutePath();
+                            break;
+                        case 11:
+                            fileStr1 = file.getAbsolutePath();
+                            break;
+                    }
+                }
+            }
+            flagsMap = CharactersUtils.getFlags(fileStr1,fileStr2);
+            return importCsv();
+        }
+        return false;
     }
 }

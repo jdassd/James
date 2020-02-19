@@ -17,13 +17,13 @@
             #{item.cid,jdbcType=VARCHAR},
             #{item.year,jdbcType=VARCHAR},
             #{item.debtFinancingLine,jdbcType=VARCHAR},
-            #{item.debtFinancingCost,jdbcType=VARCHAR}
+            #{item.debtFinancingCost,jdbcType=VARCHAR},
             #{item.equityFinancingLine,jdbcType=VARCHAR},
             #{item.equityFinancingCost,jdbcType=VARCHAR},
             #{item.internalFinancingAndTradeFinancingLine,jdbcType=VARCHAR},
-            #{item.internalFinancingAndTradeFinancingCosts,jdbcType=VARCHAR}
+            #{item.internalFinancingAndTradeFinancingCosts,jdbcType=VARCHAR},
             #{item.projectFinancingAndPolicyFinancingQuotas,jdbcType=VARCHAR},
-            #{item.projectFinancingAndPolicyFinancingCosts,jdbcType=VARCHAR},
+            #{item.projectFinancingAndPolicyFinancingCosts,jdbcType=VARCHAR}
             )
         </foreach>
     </insert>

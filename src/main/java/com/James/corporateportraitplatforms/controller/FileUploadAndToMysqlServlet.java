@@ -17,6 +17,11 @@ public class FileUploadAndToMysqlServlet {
     @Autowired
     private CsvToMysqlService csvToMysqlService;
 
+    /**
+     * 点击分析企业数据按钮
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping(value = "/csv.do",method = {RequestMethod.GET})
     public void CsvUpload(HttpServletResponse response) throws IOException {
         //返回状态码
