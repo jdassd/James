@@ -16,14 +16,14 @@
             #{item.cid,jdbcType=VARCHAR},
             #{item.year,jdbcType=VARCHAR},
             #{item.numberOfEmployees,jdbcType=VARCHAR},
-            #{item.totalAssets,jdbcType=VARCHAR}
+            #{item.totalAssets,jdbcType=VARCHAR},
             #{item.totalLiabilities,jdbcType=VARCHAR},
             #{item.totalOperatingIncome,jdbcType=VARCHAR},
             #{item.mainBusinessIncome,jdbcType=VARCHAR},
-            #{item.totalProfit,jdbcType=VARCHAR}
+            #{item.totalProfit,jdbcType=VARCHAR},
             #{item.netProfit,jdbcType=VARCHAR},
             #{item.totalTax,jdbcType=VARCHAR},
-            #{item.totalOwnerEquity,jdbcType=VARCHAR},
+            #{item.totalOwnerEquity,jdbcType=VARCHAR}
             )
         </foreach>
     </insert>
