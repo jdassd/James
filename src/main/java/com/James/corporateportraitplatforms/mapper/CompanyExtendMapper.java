@@ -6,6 +6,8 @@ import org.apache.ibatis.mapping.FetchType;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface CompanyExtendMapper {
@@ -38,6 +40,4 @@ public interface CompanyExtendMapper {
                     many = @Many(select = "com.James.corporateportraitplatforms.mapper.TagExtendMapper.findByCid", fetchType = FetchType.LAZY))
     })
     Company selectByPrimaryKeyComplete(String id);
-
-
 }

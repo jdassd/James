@@ -152,4 +152,6 @@ public interface YearReportMapper {
         "where id = #{id,jdbcType=BIGINT}"
     })
     int updateByPrimaryKey(YearReport record);
+
+    void insertBatch(@Param("list") List<YearReport> YearReportList);
 }

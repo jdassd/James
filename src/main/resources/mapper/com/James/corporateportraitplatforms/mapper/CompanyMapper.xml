@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.James.corporateportraitplatforms.mapper.CompanyMapper">
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into company (id, register_time,
+        register_money, industry,
+        city, company_type,
+        controller_type, controller_proportion,
+        flag)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.id,jdbcType=VARCHAR},
+            #{item.registerTime,jdbcType=VARCHAR},
+            #{item.registerMoney,jdbcType=VARCHAR},
+            #{item.industry,jdbcType=VARCHAR},
+            #{item.city,jdbcType=VARCHAR},
+            #{item.companyType,jdbcType=VARCHAR},
+            #{item.controllerType,jdbcType=VARCHAR},
+            #{item.controllerProportion,jdbcType=VARCHAR},
+            #{item.flag,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+<!--    <update id="updateFlagBatch" parameterType="java.util.Map">-->
+<!--        <foreach collection="map.entrySet()" index="key" item="value" separator=";">-->
+<!--            update company-->
+<!--            <set>flag=#{value,jdbcType=VARCHAR},</set>-->
+<!--            where-->
+<!--            id = #{key,jdbcType=VARCHAR}-->
+<!--        </foreach>-->
+<!--    </update>-->
+</mapper>

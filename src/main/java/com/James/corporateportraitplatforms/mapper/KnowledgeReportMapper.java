@@ -1,5 +1,6 @@
 package com.James.corporateportraitplatforms.mapper;
 
+import com.James.corporateportraitplatforms.model.Company;
 import com.James.corporateportraitplatforms.model.KnowledgeReport;
 import java.util.List;
 
@@ -112,4 +113,6 @@ public interface KnowledgeReportMapper {
         "where id = #{id,jdbcType=BIGINT}"
     })
     int updateByPrimaryKey(KnowledgeReport record);
+
+    void insertBatch(@Param("list") List<KnowledgeReport> KnowledgeReportList);
 }

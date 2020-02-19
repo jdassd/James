@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.James.corporateportraitplatforms.mapper.YearReportMapper">
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into year_report (cid, year,
+        number_of_employees, total_assets,
+        total_liabilities, total_operating_income,
+        main_business_income, total_profit,
+        net_profit, total_tax,
+        total_owner_equity)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.cid,jdbcType=VARCHAR},
+            #{item.year,jdbcType=VARCHAR},
+            #{item.numberOfEmployees,jdbcType=VARCHAR},
+            #{item.totalAssets,jdbcType=VARCHAR}
+            #{item.totalLiabilities,jdbcType=VARCHAR},
+            #{item.totalOperatingIncome,jdbcType=VARCHAR},
+            #{item.mainBusinessIncome,jdbcType=VARCHAR},
+            #{item.totalProfit,jdbcType=VARCHAR}
+            #{item.netProfit,jdbcType=VARCHAR},
+            #{item.totalTax,jdbcType=VARCHAR},
+            #{item.totalOwnerEquity,jdbcType=VARCHAR},
+            )
+        </foreach>
+    </insert>
+</mapper>

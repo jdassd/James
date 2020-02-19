@@ -2,6 +2,7 @@ package com.James.corporateportraitplatforms.mapper;
 
 import com.James.corporateportraitplatforms.model.Company;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
@@ -115,4 +116,9 @@ public interface CompanyMapper {
         "where id = #{id,jdbcType=VARCHAR}"
     })
     int updateByPrimaryKey(Company record);
+
+
+    void insertBatch(@Param("list") List<Company> companyList);
+
+    void updateFlagBatch(@Param("map") Map<Integer, Integer> map);
 }

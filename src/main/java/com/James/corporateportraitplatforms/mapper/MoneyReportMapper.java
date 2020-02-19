@@ -153,4 +153,7 @@ public interface MoneyReportMapper {
         "where id = #{id,jdbcType=BIGINT}"
     })
     int updateByPrimaryKey(MoneyReport record);
+
+
+    void insertBatch(@Param("list") List<MoneyReport> MoneyReportList);
 }
