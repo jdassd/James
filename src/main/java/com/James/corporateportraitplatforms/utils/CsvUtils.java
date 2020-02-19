@@ -196,17 +196,17 @@ public class CsvUtils {
                 }
             }
             //读取完的文件直接删除，清空目录
-            //try {
-            //    FileUtils.cleanDirectory(dir);
-            //} catch (IOException e) {
-            //    e.printStackTrace();
-            //    //System.out.println("清空目录失败");
-            //    //try {
-            //    //    Thread.sleep(3000);
-            //    //} catch (InterruptedException ex) {
-            //    //    ex.printStackTrace();
-            //    //}
-            //}
+            try {
+                FileUtils.cleanDirectory(dir);
+            } catch (IOException e) {
+                e.printStackTrace();
+                //System.out.println("清空目录失败");
+                //try {
+                //    Thread.sleep(3000);
+                //} catch (InterruptedException ex) {
+                //    ex.printStackTrace();
+                //}
+            }
             //System.out.println("读取完毕");
         }
         return true;
