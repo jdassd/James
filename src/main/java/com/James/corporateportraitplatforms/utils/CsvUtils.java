@@ -5,6 +5,7 @@ import com.James.corporateportraitplatforms.model.Company;
 import com.James.corporateportraitplatforms.model.KnowledgeReport;
 import com.James.corporateportraitplatforms.model.MoneyReport;
 import com.James.corporateportraitplatforms.model.YearReport;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import java.util.Map;
  * CSV工具类
  */
 @Component
+@Slf4j
 public class CsvUtils {
     @Autowired
     private KnowledgeReportMapper knowledgeReportMapper2;
@@ -255,10 +257,6 @@ public class CsvUtils {
                 }
             }
             flagsMap = CharactersUtils.getFlags(fileStr1,fileStr2);
-
-
-            final String finalCompanyFilePath = companyFilePath;
-            new Thread(() -> tagCompanyMapper.insertBatch(CharactersUtils.getTags(finalCompanyFilePath))).start();
 
             return importCsv();
         }

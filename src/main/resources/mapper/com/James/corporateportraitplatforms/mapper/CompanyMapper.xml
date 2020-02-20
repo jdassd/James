@@ -11,8 +11,7 @@
         flag)
         values
         <foreach collection="list" index="index" item="item" separator=",">
-            (
-            #{item.id,jdbcType=VARCHAR},
+            (#{item.id,jdbcType=VARCHAR},
             #{item.registerTime,jdbcType=VARCHAR},
             #{item.registerMoney,jdbcType=VARCHAR},
             #{item.industry,jdbcType=VARCHAR},
