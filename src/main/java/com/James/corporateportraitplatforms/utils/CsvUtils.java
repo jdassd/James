@@ -1,9 +1,6 @@
 package com.James.corporateportraitplatforms.utils;
 
-import com.James.corporateportraitplatforms.mapper.CompanyMapper;
-import com.James.corporateportraitplatforms.mapper.KnowledgeReportMapper;
-import com.James.corporateportraitplatforms.mapper.MoneyReportMapper;
-import com.James.corporateportraitplatforms.mapper.YearReportMapper;
+import com.James.corporateportraitplatforms.mapper.*;
 import com.James.corporateportraitplatforms.model.Company;
 import com.James.corporateportraitplatforms.model.KnowledgeReport;
 import com.James.corporateportraitplatforms.model.MoneyReport;
@@ -39,6 +36,7 @@ public class CsvUtils {
     private static CompanyMapper companyMapper;
     private static MoneyReportMapper moneyReportMapper;
     private static YearReportMapper yearReportMapper;
+    private static TagCompanyMapper tagCompanyMapper;
 
     @PostConstruct
     public void beforeInit(){
@@ -46,6 +44,11 @@ public class CsvUtils {
         companyMapper = companyMapper2;
         moneyReportMapper = moneyReportMapper2;
         yearReportMapper = yearReportMapper2;
+    }
+
+    @Autowired
+    public void setTagCompanyMapper(TagCompanyMapper tagCompanyMapper) {
+        CsvUtils.tagCompanyMapper = tagCompanyMapper;
     }
 
 
@@ -228,6 +231,7 @@ public class CsvUtils {
     public static boolean analysis(){
         String fileStr1 = null;
         String fileStr2 = null;
+        String companyFilePath = null;
         File dir = new File("downTemp");
         if(dir.exists()) {
             String[] suffixes = {"csv"};
@@ -244,10 +248,18 @@ public class CsvUtils {
                         case 11:
                             fileStr1 = file.getAbsolutePath();
                             break;
+                        case 9:
+                            companyFilePath = file.getAbsolutePath();
+                            break;
                     }
                 }
             }
             flagsMap = CharactersUtils.getFlags(fileStr1,fileStr2);
+
+
+            final String finalCompanyFilePath = companyFilePath;
+            new Thread(() -> tagCompanyMapper.insertBatch(CharactersUtils.getTags(finalCompanyFilePath))).start();
+
             return importCsv();
         }
         return false;

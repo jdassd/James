@@ -17,5 +17,5 @@ public interface TagCompanyMapper {
     @Options(useGeneratedKeys = true)
     Long insert(String cid, int tid);
 
-    void insertBatch(@Param("map") Map<Integer, List<String>> companyTagList);
+    void insertBatch(@Param("map") Map<Integer, List<Integer>> companyTagList);
 }

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseModel<T> {
-    private int coed;
+public class AjaxResponseModel<T> {
+    private int code;
     private T data;
     private String msg;
 }
