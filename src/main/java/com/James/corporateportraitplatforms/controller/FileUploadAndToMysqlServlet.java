@@ -32,7 +32,6 @@ public class FileUploadAndToMysqlServlet {
         //返回状态码
         int code = csvToMysqlService.csvToMysql();
 //        ObjectMapper objectMapper = new ObjectMapper();
-//
 //        Map<String,Integer> map = new HashMap<>();
 //        map.put("code",code);
 //        String json = objectMapper.writeValueAsString(map);

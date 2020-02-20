@@ -48,18 +48,4 @@ public class CorporatePortraitPlatformsApplication implements CommandLineRunner 
 //		MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
 //		myBatisGenerator.generate(null);
 //	}
-
-	private void batchTest() {
-
-
-		Map<Integer, List<String>> map = new HashMap<>();
-
-		map.put(1, Arrays.asList("3", "4", "5"));
-		map.put(2, Arrays.asList("3"));
-		map.put(3, Arrays.asList("4", "5"));
-
-
-		tagCompanyMapper.insertBatch(map);
-
-	}
 }
