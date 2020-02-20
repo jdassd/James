@@ -29,6 +29,10 @@ public class FileUploadAndToMysqlServlet {
      */
     @RequestMapping(value = "/csv.do",method = {RequestMethod.GET})
     public AjaxResponseModel<String> CsvUpload(HttpServletResponse response) throws IOException {
+        /** 获取当前系统时间*/
+        long startTime =  System.currentTimeMillis();
+        /** 程序运行 processRun();*/
+
         //返回状态码
         int code = csvToMysqlService.csvToMysql();
 //        ObjectMapper objectMapper = new ObjectMapper();
@@ -38,6 +42,11 @@ public class FileUploadAndToMysqlServlet {
 //        response.getWriter().write(json);
 
         log.info("CsvUpload done");
+
+        /** 获取当前的系统时间，与初始时间相减就是程序运行的毫秒数，除以1000就是秒数*/
+        long endTime =  System.currentTimeMillis();
+        long usedTime = (endTime-startTime)/1000;
+        System.out.println("耗时：" + usedTime + "秒");
 
         return AjaxResponseModel.<String>builder().code(code).build();
     }

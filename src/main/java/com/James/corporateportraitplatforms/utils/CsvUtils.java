@@ -135,7 +135,42 @@ public class CsvUtils {
     }
 
     /**
-     * 读取 downTemp 下的 csv 文件和分析的数据存入mysql
+     * 读取 downTemp 下的 company_csv 文件和分析的数据存入mysql
+     * @return
+     */
+    public static boolean importCsvCompany(){
+        String companyFilePath = null;
+        File dir = new File("downTemp");
+        if(dir.exists()) {
+            String[] suffixes = {"csv"};
+            Collection<File> listFiles = FileUtils.listFiles(dir, suffixes, true);
+            for (File file : listFiles) {
+                List<String> dataList = importCsv(file);
+                int size = 0;
+                if (!dataList.isEmpty()) {
+                    size = dataList.get(0).split(",").length;
+                    if (size == 9) {
+                        List list = new ArrayList<Company>();
+                        companyFilePath = file.getAbsolutePath();
+                        for (int i = 1; i < dataList.size(); i++) {
+                            String content = dataList.get(i);
+                            //System.out.println("内容测试： " + content);
+                            String[] contents = content.split(",");
+                            list.add(new Company(contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], flagsMap.get(Integer.parseInt(contents[0])) != null ? flagsMap.get(Integer.parseInt(contents[0])).toString() : "-1", null, null, null, null));
+                        }
+                        companyMapper.insertBatch(list);
+                    }
+                }
+            }
+            // company 表插入完成后插入 tags 表
+            final String finalCompanyFilePath = companyFilePath;
+            tagCompanyMapper.insertBatch(CharactersUtils.getTags(finalCompanyFilePath));
+        }
+        return true;
+    }
+
+    /**
+     * 读取 downTemp 下的 csv 文件和分析的数据存入mysql（除 company）
      * @return
      */
     public static boolean importCsv(){
@@ -153,9 +188,6 @@ public class CsvUtils {
                         case 4:
                             list = new ArrayList<KnowledgeReport>();
                             break;
-                        case 9:
-                            list = new ArrayList<Company>();
-                            break;
                         case 10:
                             list = new ArrayList<MoneyReport>();
                             break;
@@ -171,9 +203,6 @@ public class CsvUtils {
                             case 4:
                                 list.add(new KnowledgeReport(null, contents[0], contents[1], contents[2], contents[3]));
                                 break;
-                            case 9:
-                                list.add(new Company(contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], flagsMap.get(Integer.parseInt(contents[0])) != null ? flagsMap.get(Integer.parseInt(contents[0])).toString() : "-1", null, null, null, null));
-                                break;
                             case 10:
                                 list.add(new MoneyReport(null, contents[0], contents[1], contents[2], contents[3], contents[4], contents[5], contents[6], contents[7], contents[8], contents[9]));
                                 break;
@@ -186,9 +215,6 @@ public class CsvUtils {
                         case 4:
                             knowledgeReportMapper.insertBatch(list);
                             break;
-                        case 9:
-                            companyMapper.insertBatch(list);
-                            break;
                         case 10:
                             moneyReportMapper.insertBatch(list);
                             break;
@@ -198,19 +224,6 @@ public class CsvUtils {
                     }
                 }
             }
-            //读取完的文件直接删除，清空目录
-            try {
-                FileUtils.cleanDirectory(dir);
-            } catch (IOException e) {
-                e.printStackTrace();
-                //System.out.println("清空目录失败");
-                //try {
-                //    Thread.sleep(3000);
-                //} catch (InterruptedException ex) {
-                //    ex.printStackTrace();
-                //}
-            }
-            //System.out.println("读取完毕");
         }
         return true;
     }
@@ -229,9 +242,9 @@ public class CsvUtils {
      * 分析数据并调用 importCsv 方法
      */
     public static boolean analysis(){
+        new Thread(CsvUtils::importCsv).start();
         String fileStr1 = null;
         String fileStr2 = null;
-        String companyFilePath = null;
         File dir = new File("downTemp");
         if(dir.exists()) {
             String[] suffixes = {"csv"};
@@ -248,19 +261,12 @@ public class CsvUtils {
                         case 11:
                             fileStr1 = file.getAbsolutePath();
                             break;
-                        case 9:
-                            companyFilePath = file.getAbsolutePath();
-                            break;
                     }
                 }
             }
             flagsMap = CharactersUtils.getFlags(fileStr1,fileStr2);
 
-
-            final String finalCompanyFilePath = companyFilePath;
-            new Thread(() -> tagCompanyMapper.insertBatch(CharactersUtils.getTags(finalCompanyFilePath))).start();
-
-            return importCsv();
+            return importCsvCompany();
         }
         return false;
     }
