@@ -135,6 +135,28 @@ public class CsvUtils {
     }
 
     /**
+     * 插入 Tags 表
+     * @return
+     */
+    public static boolean importCsvTags(String companyFilePath){
+        tagCompanyMapper.insertBatch(CharactersUtils.getTags(companyFilePath));
+        //读取完的文件直接删除，清空目录
+        try {
+            FileUtils.cleanDirectory(new File("downTemp"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            //System.out.println("清空目录失败");
+            //try {
+            //    Thread.sleep(3000);
+            //} catch (InterruptedException ex) {
+            //    ex.printStackTrace();
+            //}
+        }
+        //System.out.println("读取完毕");
+        return true;
+    }
+
+    /**
      * 读取 downTemp 下的 company_csv 文件和分析的数据存入mysql
      * @return
      */
@@ -164,7 +186,8 @@ public class CsvUtils {
             }
             // company 表插入完成后插入 tags 表
             final String finalCompanyFilePath = companyFilePath;
-            tagCompanyMapper.insertBatch(CharactersUtils.getTags(finalCompanyFilePath));
+            new Thread(() -> importCsvTags(finalCompanyFilePath)).start();
+
         }
         return true;
     }

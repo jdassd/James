@@ -38,19 +38,6 @@ public class CsvToMysqlService {
         }
         //将下载的文件分析后导入数据库
         if(!CsvUtils.analysis()){
-            //读取完的文件直接删除，清空目录
-            try {
-                FileUtils.cleanDirectory(new File("downTemp"));
-            } catch (IOException e) {
-                e.printStackTrace();
-                //System.out.println("清空目录失败");
-                //try {
-                //    Thread.sleep(3000);
-                //} catch (InterruptedException ex) {
-                //    ex.printStackTrace();
-                //}
-            }
-            //System.out.println("读取完毕");
             return 201;
         }
         //在阿里云 OSS 同步删除
