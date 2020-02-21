@@ -41,54 +41,28 @@ public interface CompanyExtendMapper {
     })
     Company selectByPrimaryKeyComplete(String id);
 
-    @Select({
-            "select",
-            "id, register_time, register_money, industry, city, company_type, controller_type, ",
-            "controller_proportion, flag",
-            "from company",
-            "where city like #{city,jdbcType=VARCHAR}"
-    })
-    @Results(id = "baseCompanyResultMap", value = {
-            @Result(column="id", property="id", jdbcType=JdbcType.VARCHAR, id=true),
-            @Result(column="register_time", property="registerTime", jdbcType=JdbcType.VARCHAR),
-            @Result(column="register_money", property="registerMoney", jdbcType=JdbcType.VARCHAR),
-            @Result(column="industry", property="industry", jdbcType=JdbcType.VARCHAR),
-            @Result(column="city", property="city", jdbcType=JdbcType.VARCHAR),
-            @Result(column="company_type", property="companyType", jdbcType=JdbcType.VARCHAR),
-            @Result(column="controller_type", property="controllerType", jdbcType=JdbcType.VARCHAR),
-            @Result(column="controller_proportion", property="controllerProportion", jdbcType=JdbcType.VARCHAR),
-            @Result(column="flag", property="flag", jdbcType=JdbcType.VARCHAR)
-    })
-    List<Company> selectByCity(String city);
-
-    @Select({
-            "select",
-            "id, register_time, register_money, industry, city, company_type, controller_type, ",
-            "controller_proportion, flag",
-            "from company",
-            "where industry like #{industry,jdbcType=VARCHAR}"
-    })
-    @ResultMap("baseCompanyResultMap")
-    List<Company> selectByIndustry(String industry);
+    List<Company> selectAllAndCondition(List<String> city, List<String> industry, List<String> companyType, List<String> controllerType);
 
 
-    @Select({
-            "select",
-            "id, register_time, register_money, industry, city, company_type, controller_type, ",
-            "controller_proportion, flag",
-            "from company",
-            "where company_type like #{companyType,jdbcType=VARCHAR}"
-    })
-    @ResultMap("baseCompanyResultMap")
-    List<Company> selectByCompanyType(String companyType);
+    List<Company> selectByCity(String city, List<String> industry, List<String> companyType, List<String> controllerType);
 
-    @Select({
-            "select",
-            "id, register_time, register_money, industry, city, company_type, controller_type, ",
-            "controller_proportion, flag",
-            "from company",
-            "where controller_type like #{controllerType,jdbcType=VARCHAR}"
-    })
-    @ResultMap("baseCompanyResultMap")
-    List<Company> selectByControllerType(String controllerType);
+    List<Company> selectByIndustry(String industry, List<String> city, List<String> companyType, List<String> controllerType);
+
+    List<Company> selectByCompanyType(String companyType, List<String> city, List<String> industry, List<String> controllerType);
+
+    List<Company> selectByControllerType(String controllerType, List<String> city, List<String> industry, List<String> companyType);
+
+
+
+    @Select("SELECT DISTINCT industry FROM company")
+    List<String> selectCompanyIndustry();
+
+    @Select("SELECT DISTINCT city FROM company")
+    List<String> selectCompanyCity();
+
+    @Select("SELECT DISTINCT company_type FROM company")
+    List<String> selectCompanyType();
+
+    @Select("SELECT DISTINCT controller_type FROM company")
+    List<String> selectControllerType();
 }

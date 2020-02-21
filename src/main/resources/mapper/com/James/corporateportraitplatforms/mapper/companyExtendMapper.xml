@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.James.corporateportraitplatforms.mapper.CompanyExtendMapper">
+    <resultMap id="roleMap" type="company">
+        <id property="id" column="id"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="registerMoney" column="register_money"/>
+        <result property="industry" column="industry"/>
+        <result property="city" column="city"/>
+        <result property="companyType" column="company_type"/>
+        <result property="controllerType" column="controller_type"/>
+        <result property="controllerProportion" column="controller_proportion"/>
+        <result property="flag" column="flag"/>
+
+    </resultMap>
+
+
+    <select id="selectAllAndCondition" parameterType="java.util.List" resultType="company">
+        SELECT id, register_time, register_money, industry, city, company_type, controller_type, controller_proportion, flag FROM company
+        WHERE
+        1 = 1
+        <if test="city[0] != 'null'">
+            AND city IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="city" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="industry[0] != 'null'">
+            AND industry IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="industry" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="companyType[0] != 'null'">
+            AND company_type IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="companyType" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="controllerType[0] != 'null'">
+            AND controller_type IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="controllerType" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+    </select>
+
+    <select id="selectByCity" parameterType="java.util.List" resultType="company">
+        select id, register_time, register_money, industry, city, company_type, controller_type, controller_proportion, flag from company
+        WHERE city like #{city,jdbcType=VARCHAR}
+        <if test="industry[0] != 'null'">
+            AND industry IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="industry" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="companyType[0] != 'null'">
+            AND company_type IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="companyType" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="controllerType[0] != 'null'">
+            AND controller_type IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="controllerType" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+    </select>
+
+
+
+    <select id="selectByIndustry" parameterType="java.util.List" resultType="company">
+        SELECT id, register_time, register_money, industry, city, company_type, controller_type, controller_proportion, flag FROM company
+        WHERE industry LIKE #{industry,jdbcType=VARCHAR}
+
+        <if test="city[0] != 'null'">
+            AND city IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="city" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="companyType[0] != 'null'">
+            AND company_type IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="companyType" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="controllerType[0] != 'null'">
+            AND controller_type IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="controllerType" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+    </select>
+
+
+    <select id="selectByCompanyType" parameterType="java.util.List" resultType="company">
+        SELECT id, register_time, register_money, industry, city, company_type, controller_type, controller_proportion, flag FROM company
+        WHERE company_type LIKE #{companyType,jdbcType=VARCHAR}
+        <if test="city[0] != 'null'">
+            AND city IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="city" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="industry[0] != 'null'">
+            AND industry IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="industry" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="controllerType[0] != 'null'">
+            AND controller_type IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="controllerType" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+    </select>
+
+    <select id="selectByControllerType" parameterType="java.util.List" resultType="company">
+        SELECT id, register_time, register_money, industry, city, company_type, controller_type, controller_proportion, flag FROM company
+        WHERE controller_type LIKE #{controllerType,jdbcType=VARCHAR}
+        <if test="city[0] != 'null'">
+            AND city IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="city" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="industry[0] != 'null'">
+            AND industry IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="industry" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+
+        <if test="companyType[0] != 'null'">
+            AND company_type IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="companyType" item="item" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+    </select>
+
+</mapper>
