@@ -46,8 +46,8 @@ public class FileUploadAndToMysqlServlet {
         /** 获取当前的系统时间，与初始时间相减就是程序运行的毫秒数，除以1000就是秒数*/
         long endTime =  System.currentTimeMillis();
         long usedTime = (endTime-startTime)/1000;
-        System.out.println("耗时：" + usedTime + "秒");
+        //System.out.println("耗时：" + usedTime + "秒");
 
-        return AjaxResponseModel.<String>builder().code(code).build();
+        return AjaxResponseModel.<String>builder().code(code).data("耗时：" + usedTime + "秒").build();
     }
 }
