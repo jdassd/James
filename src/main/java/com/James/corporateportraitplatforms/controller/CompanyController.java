@@ -31,7 +31,6 @@ public class CompanyController {
                                                                @RequestParam(name = "selectIndustry",defaultValue = "null") List<String> industry,
                                                                @RequestParam(name = "selectCompanyType",defaultValue = "null")List<String> companyType,
                                                                @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType) {
-        cityList.forEach(e -> log.info("selectCity {}", e));
         PageHelper.startPage(pageNum, pageSize);
         return AjaxResponseModel.<PageInfo<Company>>builder()
                 .code(0)

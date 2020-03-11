@@ -49,17 +49,17 @@ public class CorporatePortraitPlatformsApplication implements CommandLineRunner 
 //		myBatisGenerator.generate(null);
 //	}
 
-	private void batchTest() {
-
-
-		Map<Integer, List<Integer>> map = new HashMap<>();
-
-		map.put(990377, Arrays.asList(3, 4, 5));
-		map.put(990505, Arrays.asList(3));
-		map.put(990773, Arrays.asList(4, 5));
-
-
-		tagCompanyMapper.insertBatch(map);
-
-	}
+//	private void batchTest() {
+//
+//
+//		Map<Integer, List<Integer>> map = new HashMap<>();
+//
+//		map.put(990377, Arrays.asList(3, 4, 5));
+//		map.put(990505, Arrays.asList(3));
+//		map.put(990773, Arrays.asList(4, 5));
+//
+//
+//		tagCompanyMapper.insertBatch(map);
+//
+//	}
 }

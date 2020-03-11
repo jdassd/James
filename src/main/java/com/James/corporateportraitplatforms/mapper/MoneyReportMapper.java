@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
+import sweeneyhe.bean.MoneyBean;
 
 
 @Mapper
@@ -156,4 +157,6 @@ public interface MoneyReportMapper {
 
 
     void insertBatch(@Param("list") List<MoneyReport> MoneyReportList);
+
+    void insertBatch_(@Param("list") List<MoneyBean> MoneyReportList);
 }

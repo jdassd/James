@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.James.corporateportraitplatforms.mapper.CompanyScoreMapper">
+
+    <insert id="insertBatch">
+        INSERT INTO score(cid, score, roe, roa, turnover_of_total_assets,
+        asset_liability_ratio, growth_rate_of_operation_income, growth_rate_of_total_assets)
+        VALUES
+        <foreach collection="list" item="item" index="i" separator=",">
+            <trim prefix="(" suffix=")">
+                #{item.id,jdbcType=VARCHAR},
+                #{item.score,jdbcType=DOUBLE},
+                #{item.roe,jdbcType=DOUBLE},
+                #{item.roa,jdbcType=DOUBLE},
+                #{item.turnover_of_total_assets,jdbcType=DOUBLE},
+                #{item.asset_liability_ratio,jdbcType=DOUBLE},
+                #{item.growth_rate_of_operation_income,jdbcType=DOUBLE},
+                #{item.growth_rate_of_total_assets,jdbcType=DOUBLE}
+            </trim>
+        </foreach>
+    </insert>
+
+</mapper>

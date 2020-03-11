@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 
 management:
   endpoints:
@@ -9,12 +9,12 @@ management:
 
 spring:
   datasource:
-    url: jdbc:mysql://59.110.143.147:3306/bisai?serverTimezone=Asia/Shanghai
-    username: bisai
-    password: qihang123456789
-#    url: jdbc:mysql:///bisai?serverTimezone=Asia/Shanghai
-#    username: root
-#    password: 123456
+#    url: jdbc:mysql://59.110.143.147:3306/bisai?serverTimezone=Asia/Shanghai
+#    username: bisai
+#    password: qihang123456789
+    url: jdbc:mysql:///bisai?serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
     hikari:
       minimum-idle: 3
       maximum-pool-size: 10
@@ -33,5 +33,14 @@ pagehelper:
   reasonable: true
   page-size-zero: true
   support-methods-arguments: true
+logging:
+  level:
+    org.apache.spark: WARN
+  file:
+    path: com/James/logs/
 
 
+my-aspect:
+  sql-split:
+    enableSqlSplit: true
+    blockSize: 6500

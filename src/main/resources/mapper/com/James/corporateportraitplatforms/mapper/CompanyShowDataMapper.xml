@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.James.corporateportraitplatforms.mapper.CompanyShowDataMapper">
+
+    <insert id="insertBatch">
+        INSERT INTO show_data(cid, year, roe, roa, asset_liability_ratio, total_operation_income, total_assets)
+        VALUES
+        <foreach collection="map" index="key" item="list" separator=",">
+            <foreach collection="list" item="item" index="i" separator=",">
+                <trim prefix="(" suffix=")" >
+                    #{key, jdbcType=VARCHAR},
+                    #{item.year,jdbcType=INTEGER},
+                    #{item.roe,jdbcType=DOUBLE},
+                    #{item.roa,jdbcType=DOUBLE},
+                    #{item.asset_liability_ratio,jdbcType=DOUBLE},
+                    #{item.total_operation_income,jdbcType=DOUBLE},
+                    #{item.total_assets,jdbcType=DOUBLE}
+                </trim>
+            </foreach>
+        </foreach>
+    </insert>
+
+</mapper>

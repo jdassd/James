@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
+import sweeneyhe.bean.BaseBean;
 
 @Mapper
 @Repository
@@ -119,6 +120,8 @@ public interface CompanyMapper {
 
 
     void insertBatch(@Param("list") List<Company> companyList);
+
+    void insertBatch_(@Param("list") List<BaseBean> companyList, @Param("flagMap") Map<Integer, Integer> map);
 
     void updateFlagBatch(@Param("map") Map<Integer, Integer> map);
 }

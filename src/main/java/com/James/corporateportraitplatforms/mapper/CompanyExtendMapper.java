@@ -54,7 +54,8 @@ public interface CompanyExtendMapper {
 
 
 
-    @Select("SELECT DISTINCT industry FROM company")
+//    @Select("SELECT industry as name, COUNT(id) as count FROM company GROUP BY industry")
+    @Select("SELECT industry FROM company GROUP BY industry")
     List<String> selectCompanyIndustry();
 
     @Select("SELECT DISTINCT city FROM company")

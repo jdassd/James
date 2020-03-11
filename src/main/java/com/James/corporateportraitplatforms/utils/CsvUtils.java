@@ -1,10 +1,7 @@
 package com.James.corporateportraitplatforms.utils;
 
 import com.James.corporateportraitplatforms.mapper.*;
-import com.James.corporateportraitplatforms.model.Company;
-import com.James.corporateportraitplatforms.model.KnowledgeReport;
-import com.James.corporateportraitplatforms.model.MoneyReport;
-import com.James.corporateportraitplatforms.model.YearReport;
+import com.James.corporateportraitplatforms.model.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,6 +47,20 @@ public class CsvUtils {
     public void setTagCompanyMapper(TagCompanyMapper tagCompanyMapper) {
         CsvUtils.tagCompanyMapper = tagCompanyMapper;
     }
+
+    //    2020-3-10 Devil 测试添加开始
+    private static CompanyShowDataMapper companyShowDataMapper;
+    private static CompanyScoreMapper companyScoreMapper;
+
+    @Autowired
+    public void setCompanyScoreMapper(CompanyScoreMapper scoreMapper) {
+        CsvUtils.companyScoreMapper = scoreMapper;
+    }
+    @Autowired
+    public void setCompanyShowDataMapper(CompanyShowDataMapper companyShowDataMapper) {
+        CsvUtils.companyShowDataMapper = companyShowDataMapper;
+    }
+    //    2020-3-10 Devil 测试添加结束
 
 
     /**
@@ -139,7 +150,7 @@ public class CsvUtils {
      * @return
      */
     public static boolean importCsvTags(String companyFilePath){
-        tagCompanyMapper.insertBatch(CharactersUtils.getTags(companyFilePath));
+//        tagCompanyMapper.insertBatch(CharactersUtils.getTags(companyFilePath));
         //读取完的文件直接删除，清空目录
         try {
             FileUtils.cleanDirectory(new File("downTemp"));
@@ -287,10 +298,61 @@ public class CsvUtils {
                     }
                 }
             }
-            flagsMap = CharactersUtils.getFlags(fileStr1,fileStr2);
+//            flagsMap = CharactersUtils.getFlags(fileStr1,fileStr2);
 
             return importCsvCompany();
         }
         return false;
+    }
+
+// 2020-3-10 devil 测试添加
+    public static void test() {
+        String companyFilePath = null;
+        String moneyFilePath = null;
+        String yearFilePath = null;
+        String knowledgeFilePath = null;
+        File dir = new File("downTemp");
+        if (dir.exists()) {
+            String[] suffixes = {"csv"};
+            Collection<File> listFiles = FileUtils.listFiles(dir, suffixes, true);
+            for (File file : listFiles) {
+                int size = 0;
+                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+
+                    final String lineString = br.readLine();
+                    size = lineString.split(",").length;
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                switch (size) {
+                    case 4:
+                        knowledgeFilePath = file.getAbsolutePath();
+                        break;
+                    case 10:
+                        moneyFilePath = file.getAbsolutePath();
+                        break;
+                    case 11:
+                        yearFilePath = file.getAbsolutePath();
+                        break;
+                    case 9:
+                        companyFilePath = file.getAbsolutePath();
+                        break;
+                }
+            }
+        }
+
+        CharactersUtils.initData(companyFilePath, yearFilePath, moneyFilePath, knowledgeFilePath);
+        final Map<Integer, Integer> flags = CharactersUtils.getFlags();
+        companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
+        final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
+        tagCompanyMapper.insertBatch(tags);
+        knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
+        yearReportMapper.insertBatch_(CharactersUtils.getYearBeanList());
+        moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
+
+        companyShowDataMapper.insertBatch(CharactersUtils.getCompanyShowData());
+        companyScoreMapper.insertBatch(CharactersUtils.getCompanyScoreList());
     }
 }

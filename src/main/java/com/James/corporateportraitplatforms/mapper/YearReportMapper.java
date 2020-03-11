@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
+import sweeneyhe.bean.YearBean;
 
 
 @Mapper
@@ -154,4 +155,6 @@ public interface YearReportMapper {
     int updateByPrimaryKey(YearReport record);
 
     void insertBatch(@Param("list") List<YearReport> YearReportList);
+
+    void insertBatch_(@Param("list") List<YearBean> YearReportList);
 }

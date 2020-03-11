@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
+import sweeneyhe.bean.KnowledgeBean;
 
 @Mapper
 @Repository
@@ -115,4 +116,6 @@ public interface KnowledgeReportMapper {
     int updateByPrimaryKey(KnowledgeReport record);
 
     void insertBatch(@Param("list") List<KnowledgeReport> KnowledgeReportList);
+
+    void insertBatch_(@Param("list") List<KnowledgeBean> KnowledgeReportList);
 }
