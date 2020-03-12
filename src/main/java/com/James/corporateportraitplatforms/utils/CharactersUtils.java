@@ -23,11 +23,7 @@ public class CharactersUtils {
     }
 
     public static void initData(String companyFilePath, String yearFilePath, String moneyFilePath, String knowledgeFilePath) {
-        long startTime = new Date().getTime();
         ml.initAndCleanData(companyFilePath, yearFilePath, moneyFilePath, knowledgeFilePath);
-        long endTime = new Date().getTime();
-
-        log.info("init data used time {}s", (endTime - startTime) / 1000);
     }
     /**
      *

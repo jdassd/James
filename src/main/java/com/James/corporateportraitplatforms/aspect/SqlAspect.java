@@ -17,25 +17,40 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
+
+
+/*
+*
+*
+*    暂停使用
+*
+*
+*
+*
+* */
+
+
+
+
+
+
+
+
+
+
+
+
 @Slf4j
-@Aspect
-@Component
-@ConfigurationProperties(prefix = "my-aspect.sql-split")
+//@Aspect
+//@Component
+//@ConfigurationProperties(prefix = "my-aspect.sql-split")
 class MonitorAspect {
     
     private boolean enableSqlSplit = false;
     private int blockSize;
 
-    public boolean isEnableSqlSplit() {
-        return enableSqlSplit;
-    }
-
     public void setEnableSqlSplit(boolean enableSqlSplit) {
         this.enableSqlSplit = enableSqlSplit;
-    }
-
-    public int getBlockSize() {
-        return blockSize;
     }
 
     public void setBlockSize(int blockSize) {

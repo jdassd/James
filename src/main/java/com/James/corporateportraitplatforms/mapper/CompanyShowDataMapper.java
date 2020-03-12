@@ -15,7 +15,7 @@ import java.util.Map;
 @Repository
 public interface CompanyShowDataMapper {
 
-    @Select("SELECT id, cid, year, roe, roa, asset_liability_ratio, total_operation_income, total_assets FROM show_data WHERE cid=#{cid}")
+    @Select("SELECT id, cid, year, roe, roa, asset_liability_ratio, total_operation_income, total_assets FROM show_data WHERE cid=#{cid} ORDER BY `year` ASC")
     List<CompanyShowData> getShowData(String cid);
 
     void insertBatch(@Param("map") Map<Integer, List<ShowData>> showDataMap);

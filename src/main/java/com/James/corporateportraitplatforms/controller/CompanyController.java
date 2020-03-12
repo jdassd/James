@@ -2,16 +2,15 @@ package com.James.corporateportraitplatforms.controller;
 
 import com.James.corporateportraitplatforms.model.AjaxResponseModel;
 import com.James.corporateportraitplatforms.model.Company;
+import com.James.corporateportraitplatforms.model.CompanyScore;
 import com.James.corporateportraitplatforms.model.Tag;
+import com.James.corporateportraitplatforms.service.CompanyScoreService;
 import com.James.corporateportraitplatforms.service.CompanyService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +22,8 @@ public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
+    @Autowired
+    private CompanyScoreService companyScoreService;
 
     @GetMapping("/get-company-all")
     public AjaxResponseModel<PageInfo<Company>> getCompanyList(@RequestParam(defaultValue = "1") int pageNum,
@@ -144,4 +145,11 @@ public class CompanyController {
                 .build();
     }
 
+    @GetMapping("/get-score/{id}")
+    public AjaxResponseModel<CompanyScore> getCompanyScore(@PathVariable String id) {
+        return AjaxResponseModel.<CompanyScore>builder().
+                data(companyScoreService.getCompanyScoreByCid(id)).
+                code(0).
+                build();
+    }
 }
