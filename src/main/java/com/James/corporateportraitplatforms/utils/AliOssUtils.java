@@ -145,6 +145,7 @@ public class AliOssUtils {
                         //System.out.println("下载了-------> " + len * 100 / objectSummary.getSize() + "%");
                     }
                     out.close();
+                    br.close();
                 }
                 // 数据读取完成后，获取的流必须关闭，否则会造成连接泄漏，导致请求无连接可用，程序无法正常工作。
                 content.close();

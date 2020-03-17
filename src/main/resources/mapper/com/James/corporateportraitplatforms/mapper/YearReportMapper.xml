@@ -36,20 +36,6 @@
         net_profit, total_tax,
         total_owner_equity)
         values
-        <foreach collection="list" index="index" item="item" separator=",">
-            (
-            #{item.id,jdbcType=VARCHAR},
-            #{item.year,jdbcType=VARCHAR},
-            #{item.number_of_employees,jdbcType=VARCHAR},
-            #{item.total_assets,jdbcType=VARCHAR},
-            #{item.total_liabilities,jdbcType=VARCHAR},
-            #{item.total_operating_income,jdbcType=VARCHAR},
-            #{item.main_business_income,jdbcType=VARCHAR},
-            #{item.total_profit,jdbcType=VARCHAR},
-            #{item.net_profit,jdbcType=VARCHAR},
-            #{item.total_tax,jdbcType=VARCHAR},
-            #{item.total_owner_equity,jdbcType=VARCHAR}
-            )
-        </foreach>
+        <foreach collection="list" index="index" item="item" separator=",">(#{item.id,jdbcType=VARCHAR},#{item.year,jdbcType=VARCHAR},#{item.number_of_employees,jdbcType=VARCHAR},#{item.total_assets,jdbcType=VARCHAR},#{item.total_liabilities,jdbcType=VARCHAR},#{item.total_operating_income,jdbcType=VARCHAR},#{item.main_business_income,jdbcType=VARCHAR},#{item.total_profit,jdbcType=VARCHAR},#{item.net_profit,jdbcType=VARCHAR},#{item.total_tax,jdbcType=VARCHAR},#{item.total_owner_equity,jdbcType=VARCHAR})</foreach>
     </insert>
 </mapper>

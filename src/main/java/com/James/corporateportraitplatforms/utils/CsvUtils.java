@@ -2,6 +2,7 @@ package com.James.corporateportraitplatforms.utils;
 
 import com.James.corporateportraitplatforms.mapper.*;
 import com.James.corporateportraitplatforms.model.*;
+import com.James.corporateportraitplatforms.service.CsvService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,9 +49,11 @@ public class CsvUtils {
         CsvUtils.tagCompanyMapper = tagCompanyMapper;
     }
 
-    //    2020-3-10 Devil 测试添加开始
+    //    2020-3-16 Devil 测试添加开始
     private static CompanyShowDataMapper companyShowDataMapper;
     private static CompanyScoreMapper companyScoreMapper;
+
+    private static CsvService csvService;
 
     @Autowired
     public void setCompanyScoreMapper(CompanyScoreMapper scoreMapper) {
@@ -60,7 +63,11 @@ public class CsvUtils {
     public void setCompanyShowDataMapper(CompanyShowDataMapper companyShowDataMapper) {
         CsvUtils.companyShowDataMapper = companyShowDataMapper;
     }
-    //    2020-3-10 Devil 测试添加结束
+    @Autowired
+    public void setCsvService(CsvService service) {
+        CsvUtils.csvService = service;
+    }
+    //    2020-3-16 Devil 测试添加结束
 
 
     /**
@@ -343,9 +350,12 @@ public class CsvUtils {
             }
         }
 
-        CharactersUtils.initData(companyFilePath, yearFilePath, moneyFilePath, knowledgeFilePath);
+        CharactersUtils.initData(companyFilePath, yearFilePath);
         final Map<Integer, Integer> flags = CharactersUtils.getFlags();
+        csvService.saveCompanyFlag2File(flags);
         companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
+
+        CharactersUtils.initDataAfter(yearFilePath, moneyFilePath, knowledgeFilePath);
         final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
         tagCompanyMapper.insertBatch(tags);
         knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
