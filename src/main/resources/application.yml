@@ -14,7 +14,8 @@ spring:
 #    password: qihang123456789
     url: jdbc:mysql:///bisai?serverTimezone=Asia/Shanghai
     username: root
-    password: 123456
+    password: 199944aa
+    # password: 123456
     hikari:
       minimum-idle: 3
       maximum-pool-size: 10
