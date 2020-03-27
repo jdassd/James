@@ -20,15 +20,15 @@ public interface CompanyExtendMapper {
             "where id = #{id,jdbcType=VARCHAR}"
     })
     @Results({
-            @Result(column="id", property="id", jdbcType= JdbcType.VARCHAR, id=true),
-            @Result(column="register_time", property="registerTime", jdbcType=JdbcType.VARCHAR),
-            @Result(column="register_money", property="registerMoney", jdbcType=JdbcType.VARCHAR),
-            @Result(column="industry", property="industry", jdbcType=JdbcType.VARCHAR),
-            @Result(column="city", property="city", jdbcType=JdbcType.VARCHAR),
-            @Result(column="company_type", property="companyType", jdbcType=JdbcType.VARCHAR),
-            @Result(column="controller_type", property="controllerType", jdbcType=JdbcType.VARCHAR),
-            @Result(column="controller_proportion", property="controllerProportion", jdbcType=JdbcType.VARCHAR),
-            @Result(column="flag", property="flag", jdbcType=JdbcType.VARCHAR),
+            @Result(column = "id", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
+            @Result(column = "register_time", property = "registerTime", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "register_money", property = "registerMoney", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "industry", property = "industry", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "city", property = "city", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "company_type", property = "companyType", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "controller_type", property = "controllerType", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "controller_proportion", property = "controllerProportion", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "flag", property = "flag", jdbcType = JdbcType.VARCHAR),
 
             @Result(column = "id", property = "knowledgeReport",
                     one = @One(select = "com.James.corporateportraitplatforms.mapper.KnowledgeReportMapper.selectByCid", fetchType = FetchType.EAGER)),
@@ -53,8 +53,7 @@ public interface CompanyExtendMapper {
     List<Company> selectByControllerType(String controllerType, List<String> city, List<String> industry, List<String> companyType);
 
 
-
-//    @Select("SELECT industry as name, COUNT(id) as count FROM company GROUP BY industry")
+    //    @Select("SELECT industry as name, COUNT(id) as count FROM company GROUP BY industry")
     @Select("SELECT industry FROM company GROUP BY industry")
     List<String> selectCompanyIndustry();
 
@@ -66,4 +65,22 @@ public interface CompanyExtendMapper {
 
     @Select("SELECT DISTINCT controller_type FROM company")
     List<String> selectControllerType();
+
+    /**
+     * 获取指定省份的僵尸或非僵尸企业数量
+     *
+     * @return
+     */
+    @Select({
+            "select count(id) from company where city = #{city,jdbcType=VARCHAR} and flag = #{flag,jdbcType=VARCHAR}"
+    })
+    int getCountByProvinceAndFlag(@Param("city") String city, @Param("flag") String flag);
+
+    /**
+     * 获取指定企业规模的僵尸或非僵尸企业
+     * @param flag 僵尸企业标志
+     * @param cidList 企业 id 列表
+     * @return
+     */
+    List<Company> selectByScaleAndCidList(String flag, List<String> cidList);
 }
