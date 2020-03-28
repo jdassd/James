@@ -35,7 +35,7 @@ public class CsvService {
         if (!path.exists())
             path.mkdirs();
 
-        String csvFilePath = path.getPath() + File.separatorChar + "JSU-James-company-sort-result-" + sdf.format(new Date()) + ".csv";
+        String csvFilePath = path.getPath() + File.separatorChar + "James-company-sort-result-" + sdf.format(new Date()) + ".csv";
 
         try (FileWriter fw = new FileWriter(csvFilePath)) {
             for (Map.Entry<Integer, Integer> enter : flags.entrySet()) {

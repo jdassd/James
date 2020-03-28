@@ -353,16 +353,23 @@ public class CsvUtils {
         CharactersUtils.initData(companyFilePath, yearFilePath);
         final Map<Integer, Integer> flags = CharactersUtils.getFlags();
         csvService.saveCompanyFlag2File(flags);
-        companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
 
-        CharactersUtils.initDataAfter(yearFilePath, moneyFilePath, knowledgeFilePath);
-        final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
-        tagCompanyMapper.insertBatch(tags);
-        knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
-        yearReportMapper.insertBatch_(CharactersUtils.getYearBeanList());
-        moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
+        final String finalYearFilePath = yearFilePath;
+        final String finalMoneyFilePath = moneyFilePath;
+        final String finalKnowledgeFilePath = knowledgeFilePath;
+        new Thread(() -> {
+            companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
 
-        companyShowDataMapper.insertBatch(CharactersUtils.getCompanyShowData());
-        companyScoreMapper.insertBatch(CharactersUtils.getCompanyScoreList());
+            CharactersUtils.initDataAfter(finalYearFilePath, finalMoneyFilePath, finalKnowledgeFilePath);
+            final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
+            tagCompanyMapper.insertBatch(tags);
+            knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
+            yearReportMapper.insertBatch_(CharactersUtils.getYearBeanList());
+            moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
+
+            companyShowDataMapper.insertBatch(CharactersUtils.getCompanyShowData());
+            companyScoreMapper.insertBatch(CharactersUtils.getCompanyScoreList());
+        }).start();
+
     }
 }
