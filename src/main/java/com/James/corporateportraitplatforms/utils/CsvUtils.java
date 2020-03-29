@@ -5,6 +5,7 @@ import com.James.corporateportraitplatforms.model.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sweeneyhe.bean.YearBean;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
@@ -27,7 +28,8 @@ public class CsvUtils {
     @Autowired
     private YearReportMapper yearReportMapper2;
 
-    private static Map<Integer,Integer> flagsMap = null;
+    public static Map<Integer,Integer> flagsMap = null;
+    public static List<YearBean> yearBeanList = null;
 
     private static KnowledgeReportMapper knowledgeReportMapper;
     private static CompanyMapper companyMapper;
@@ -345,11 +347,13 @@ public class CsvUtils {
 
         CharactersUtils.initData(companyFilePath, yearFilePath, moneyFilePath, knowledgeFilePath);
         final Map<Integer, Integer> flags = CharactersUtils.getFlags();
+        flagsMap = flags;
         companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
         final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
         tagCompanyMapper.insertBatch(tags);
         knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
-        yearReportMapper.insertBatch_(CharactersUtils.getYearBeanList());
+        yearBeanList = CharactersUtils.getYearBeanList();
+        yearReportMapper.insertBatch_(yearBeanList);
         moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
 
         companyShowDataMapper.insertBatch(CharactersUtils.getCompanyShowData());

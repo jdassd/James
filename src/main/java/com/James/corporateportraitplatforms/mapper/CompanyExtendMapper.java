@@ -76,11 +76,52 @@ public interface CompanyExtendMapper {
     })
     int getCountByProvinceAndFlag(@Param("city") String city, @Param("flag") String flag);
 
+    ///**
+    // * 获取指定企业规模的僵尸或非僵尸企业
+    // * @param flag 僵尸企业标志
+    // * @param cidList 企业 id 列表
+    // * @return
+    // */
+    //List<Company> selectByScaleAndCidList(String flag, List<String> cidList);
+    //
+    ///**
+    // * 获取指定行业的僵尸或非僵尸企业
+    // * @param flag 僵尸企业标志
+    // * @param cidList 企业 id 列表
+    // * @return
+    // */
+    //List<Company> selectByIndustryAndCidList(String flag, List<String> cidList);
+
     /**
-     * 获取指定企业规模的僵尸或非僵尸企业
+     * 获取指定企业 id 列表里的僵尸或非僵尸企业
      * @param flag 僵尸企业标志
      * @param cidList 企业 id 列表
      * @return
      */
-    List<Company> selectByScaleAndCidList(String flag, List<String> cidList);
+    List<Company> selectByFlagAndCidList(String flag, List<String> cidList);
+
+    /**
+     * 获取指定企业标志企业
+     * @param flag 僵尸企业标志
+     * @return
+     */
+    @Select({
+            "select",
+            "id, register_time, register_money, industry, city, company_type, controller_type, ",
+            "controller_proportion, flag",
+            "from company",
+            "where flag = #{flag,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.VARCHAR, id=true),
+            @Result(column="register_time", property="registerTime", jdbcType=JdbcType.VARCHAR),
+            @Result(column="register_money", property="registerMoney", jdbcType=JdbcType.VARCHAR),
+            @Result(column="industry", property="industry", jdbcType=JdbcType.VARCHAR),
+            @Result(column="city", property="city", jdbcType=JdbcType.VARCHAR),
+            @Result(column="company_type", property="companyType", jdbcType=JdbcType.VARCHAR),
+            @Result(column="controller_type", property="controllerType", jdbcType=JdbcType.VARCHAR),
+            @Result(column="controller_proportion", property="controllerProportion", jdbcType=JdbcType.VARCHAR),
+            @Result(column="flag", property="flag", jdbcType=JdbcType.VARCHAR)
+    })
+    List<Company> selectByFlag(@Param("flag") String flag);
 }

@@ -23,7 +23,8 @@ public class CharactersUtils {
     }
 
     public static void initData(String companyFilePath, String yearFilePath, String moneyFilePath, String knowledgeFilePath) {
-        ml.initAndCleanData(companyFilePath, yearFilePath, moneyFilePath, knowledgeFilePath);
+        ml.initAndCleanData(yearFilePath, companyFilePath);
+        ml.initAndCleanAfter(yearFilePath, moneyFilePath, knowledgeFilePath);
     }
     /**
      *
