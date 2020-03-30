@@ -18,7 +18,7 @@ public interface TagCompanyMapper {
     void insertBatch(@Param("map") Map<Integer, List<Integer>> companyTagList);
 
     /**
-     * 根据 tid 查找所有 cid 
+     * 根据 tid 查找所有 cid
      * @param tid
      * @return
      */
