@@ -6,6 +6,7 @@ import com.James.corporateportraitplatforms.service.CsvService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sweeneyhe.bean.YearBean;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
@@ -28,7 +29,8 @@ public class CsvUtils {
     @Autowired
     private YearReportMapper yearReportMapper2;
 
-    private static Map<Integer,Integer> flagsMap = null;
+    public static Map<Integer,Integer> flagsMap = null;
+    public static List<YearBean> yearBeanList = null;
 
     private static KnowledgeReportMapper knowledgeReportMapper;
     private static CompanyMapper companyMapper;

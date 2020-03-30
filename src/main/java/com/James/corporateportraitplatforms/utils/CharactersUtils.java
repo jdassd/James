@@ -22,11 +22,8 @@ public class CharactersUtils {
         CharactersUtils.ml = ml;
     }
 
-    public static void initData(String companyFilePath, String yearFilePath) {
+    public static void initData(String companyFilePath, String yearFilePath, String moneyFilePath, String knowledgeFilePath) {
         ml.initAndCleanData(companyFilePath, yearFilePath);
-    }
-
-    public static void initDataAfter(String yearFilePath, String moneyFilePath, String knowledgeFilePath) {
         ml.initAndCleanAfter(yearFilePath, moneyFilePath, knowledgeFilePath);
     }
     /**

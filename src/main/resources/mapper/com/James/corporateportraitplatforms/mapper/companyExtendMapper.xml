@@ -186,7 +186,39 @@
         </if>
     </select>
 
-    <select id="selectByScaleAndCidList" parameterType="java.util.List" resultType="company">
+    <!--<select id="selectByScaleAndCidList" parameterType="java.util.List" resultType="company">-->
+    <!--    SELECT id, register_time, register_money, industry, city, company_type, controller_type, controller_proportion, flag FROM company-->
+    <!--    WHERE flag = #{flag,jdbcType=VARCHAR}-->
+    <!--    <if test="cidList[0] != 'null'">-->
+    <!--        AND id IN-->
+    <!--        <trim prefix="(" suffix=")">-->
+    <!--            <foreach collection="cidList" item="cid" separator=",">-->
+    <!--                #{cid, jdbcType=VARCHAR}-->
+    <!--            </foreach>-->
+    <!--        </trim>-->
+    <!--    </if>-->
+    <!--    <if test="cidList[0] == 'null'">-->
+    <!--        AND id = NULL-->
+    <!--    </if>-->
+    <!--</select>-->
+
+    <!--<select id="selectByIndustryAndCidList" parameterType="java.util.List" resultType="company">-->
+    <!--    SELECT id, register_time, register_money, industry, city, company_type, controller_type, controller_proportion, flag FROM company-->
+    <!--    WHERE flag = #{flag,jdbcType=VARCHAR}-->
+    <!--    <if test="cidList[0] != 'null'">-->
+    <!--        AND id IN-->
+    <!--        <trim prefix="(" suffix=")">-->
+    <!--            <foreach collection="cidList" item="cid" separator=",">-->
+    <!--                #{cid, jdbcType=VARCHAR}-->
+    <!--            </foreach>-->
+    <!--        </trim>-->
+    <!--    </if>-->
+    <!--    <if test="cidList[0] == 'null'">-->
+    <!--        AND id = NULL-->
+    <!--    </if>-->
+    <!--</select>-->
+
+    <select id="selectByFlagAndCidList" parameterType="java.util.List" resultType="company">
         SELECT id, register_time, register_money, industry, city, company_type, controller_type, controller_proportion, flag FROM company
         WHERE flag = #{flag,jdbcType=VARCHAR}
         <if test="cidList[0] != 'null'">
@@ -201,5 +233,4 @@
             AND id = NULL
         </if>
     </select>
-
 </mapper>
