@@ -51,7 +51,7 @@ public class CsvUtils {
         CsvUtils.tagCompanyMapper = tagCompanyMapper;
     }
 
-    //    2020-3-16 Devil 测试添加开始
+    //    2020-3-10 Devil 测试添加开始
     private static CompanyShowDataMapper companyShowDataMapper;
     private static CompanyScoreMapper companyScoreMapper;
 
@@ -314,7 +314,7 @@ public class CsvUtils {
         return false;
     }
 
-// 2020-3-10 devil 测试添加
+    // 2020-3-10 devil 测试添加
     public static void test() {
         String companyFilePath = null;
         String moneyFilePath = null;
@@ -352,26 +352,19 @@ public class CsvUtils {
             }
         }
 
-        CharactersUtils.initData(companyFilePath, yearFilePath);
+        CharactersUtils.initData(companyFilePath, yearFilePath, moneyFilePath, knowledgeFilePath);
         final Map<Integer, Integer> flags = CharactersUtils.getFlags();
         csvService.saveCompanyFlag2File(flags);
+        flagsMap = flags;
+        companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
+        final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
+        tagCompanyMapper.insertBatch(tags);
+        knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
+        yearBeanList = CharactersUtils.getYearBeanList();
+        yearReportMapper.insertBatch_(yearBeanList);
+        moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
 
-        final String finalYearFilePath = yearFilePath;
-        final String finalMoneyFilePath = moneyFilePath;
-        final String finalKnowledgeFilePath = knowledgeFilePath;
-        new Thread(() -> {
-            companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
-
-            CharactersUtils.initDataAfter(finalYearFilePath, finalMoneyFilePath, finalKnowledgeFilePath);
-            final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
-            tagCompanyMapper.insertBatch(tags);
-            knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
-            yearReportMapper.insertBatch_(CharactersUtils.getYearBeanList());
-            moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
-
-            companyShowDataMapper.insertBatch(CharactersUtils.getCompanyShowData());
-            companyScoreMapper.insertBatch(CharactersUtils.getCompanyScoreList());
-        }).start();
-
+        companyShowDataMapper.insertBatch(CharactersUtils.getCompanyShowData());
+        companyScoreMapper.insertBatch(CharactersUtils.getCompanyScoreList());
     }
 }
