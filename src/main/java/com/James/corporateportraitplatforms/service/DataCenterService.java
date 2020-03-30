@@ -4,6 +4,7 @@ import com.James.corporateportraitplatforms.mapper.CompanyExtendMapper;
 import com.James.corporateportraitplatforms.mapper.TagCompanyMapper;
 import com.James.corporateportraitplatforms.utils.CharactersUtils;
 import com.James.corporateportraitplatforms.utils.CsvUtils;
+import org.apache.spark.sql.sources.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sweeneyhe.bean.YearBean;
@@ -195,29 +196,66 @@ public class DataCenterService {
         double[][] count = new double[4][3];
         List<YearBean> yearBeanList = CsvUtils.yearBeanList;
         Map<Integer, Integer> flags = CsvUtils.flagsMap;
-        for(int i = 2015 ; i < 2018 ; i++){
-            for(YearBean yearBean : yearBeanList){
-                //判断企业年份
-                if(yearBean.year() == i) {
-                    //判断是否僵尸企业
-                    double profit = yearBean.net_profit();
-                    if (flags.get(yearBean.id()) == 1) {
-                        if (profit >= 0.0) {
-                            count[0][i-2015] += profit;
-                        } else {
-                            count[2][i-2015] += profit;
-                        }
+        for(YearBean yearBean : yearBeanList){
+            //判断是否僵尸企业
+            double profit = yearBean.net_profit();
+            int year = yearBean.year();
+            //System.out.println("yearBean id = " + yearBean.id());
+            //if(flags.get(yearBean.id()) != null) {//避免数据清洗BUG
+                if (flags.get(yearBean.id()) == 1) {
+                    if (profit >= 0.0) {
+                        count[0][year - 2015] += profit;
                     } else {
-                        if (profit >= 0.0) {
-                            count[1][i-2015] += profit;
-                        } else {
-                            count[3][i-2015] += profit;
-                        }
+                        count[2][year - 2015] += profit;
+                    }
+                } else {
+                    if (profit >= 0.0) {
+                        count[1][year - 2015] += profit;
+                    } else {
+                        count[3][year - 2015] += profit;
                     }
                 }
-            }
+            //}
         }
         map.put("profitData",count);
+        return map;
+    }
+
+    /**
+     * 获取地图数据
+     * @return
+     */
+    public Map<String, Object> getMap() {
+        List<Map<String, Object>> provinceRankList = getProvinceRankList();
+        List<Integer> valueList = new ArrayList<>();
+        boolean flag;
+        int max = 1;
+        String[] provinces = new String[]{
+                "湖北", "广东", "河南", "浙江", "湖南", "安徽", "江西", "江苏", "重庆", "山东", "四川", "黑龙江",
+                "北京", "上海", "福建", "河北", "陕西", "广西", "海南", "云南", "贵州", "山西", "辽宁", "天津",
+                "甘肃", "吉林", "宁夏", "新疆", "内蒙古", "香港", "台湾", "青海", "澳门", "西藏"
+        };
+        HashMap<String, Object> map = new HashMap<>();
+        for(String province : provinces){
+            flag = false;
+            //查看是否有这个省的数据
+            for(Map<String, Object> provinceRankMap : provinceRankList){
+                if(province.equals(provinceRankMap.get("key"))){
+                    int tempNum = Integer.parseInt(provinceRankMap.get("yes").toString());
+                    if(tempNum >= max)
+                        max = tempNum;
+                    valueList.add(tempNum);
+                    flag = true;
+                    break;
+                }
+            }
+            //如果没有这个省的数据
+            if(!flag)
+                valueList.add(0);
+        }
+        map.put("name",provinces);
+        map.put("value",valueList);
+        map.put("max",max);
         return map;
     }
 }

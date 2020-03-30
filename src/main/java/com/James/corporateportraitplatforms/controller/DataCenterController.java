@@ -107,4 +107,17 @@ public class DataCenterController {
                 .data(profitPic)
                 .msg("getProfitPic.do successfully").build();
     }
+
+    /**
+     * 获取地图数据
+     * @return
+     */
+    @GetMapping("/getMap.do")
+    public AjaxResponseModel<Map<String,Object>> getMap(){
+        Map<String,Object> map = dataCenterService.getMap();
+        return AjaxResponseModel.<Map<String,Object>>builder()
+                .code(0)
+                .data(map)
+                .msg("getMap.do successfully").build();
+    }
 }
