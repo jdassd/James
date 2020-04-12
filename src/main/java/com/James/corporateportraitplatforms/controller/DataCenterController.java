@@ -23,11 +23,12 @@ public class DataCenterController {
      */
     @GetMapping("/getProvinceRank.do")
     public AjaxResponseModel<List<Map<String,Object>>> getProvinceRank(){
+        long start = System.currentTimeMillis();
         List<Map<String, Object>> provinceRankList = dataCenterService.getProvinceRankList();
         return AjaxResponseModel.<List<Map<String,Object>>>builder()
                 .code(0)
                 .data(provinceRankList)
-                .msg("getProvinceRank.do successfully").build();
+                .msg("getProvinceRank.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
 
     /**
@@ -36,11 +37,12 @@ public class DataCenterController {
      */
     @GetMapping("/getScaleRank.do")
     public AjaxResponseModel<List<Map<String,Object>>> getScaleRank(){
+        long start = System.currentTimeMillis();
         List<Map<String, Object>> scaleRankList = dataCenterService.getScaleRankList();
         return AjaxResponseModel.<List<Map<String,Object>>>builder()
                 .code(0)
                 .data(scaleRankList)
-                .msg("getScaleRank.do successfully").build();
+                .msg("getScaleRank.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
 
     /**
@@ -49,11 +51,12 @@ public class DataCenterController {
      */
     @GetMapping("/getIndustryRank.do")
     public AjaxResponseModel<List<Map<String,Object>>> getIndustryRank(){
+        long start = System.currentTimeMillis();
         List<Map<String, Object>> getIndustryRankList = dataCenterService.getIndustryRankList();
         return AjaxResponseModel.<List<Map<String,Object>>>builder()
                 .code(0)
                 .data(getIndustryRankList)
-                .msg("getScaleRank.do successfully").build();
+                .msg("getScaleRank.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
 
     /**
@@ -62,11 +65,12 @@ public class DataCenterController {
      */
     @GetMapping("/getNumWithFlag.do")
     public AjaxResponseModel<Map<String,Object>> getNumWithFlag(){
+        long start = System.currentTimeMillis();
         Map<String, Object> numWithFlag = dataCenterService.getNumWithFlag();
         return AjaxResponseModel.<Map<String,Object>>builder()
                 .code(0)
                 .data(numWithFlag)
-                .msg("getNumWithFlag.do successfully").build();
+                .msg("getNumWithFlag.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
 
     /**
@@ -75,11 +79,12 @@ public class DataCenterController {
      */
     @GetMapping("/getIndustryPic.do")
     public AjaxResponseModel<List<Object>> getIndustryPic(){
+        long start = System.currentTimeMillis();
         List<Object> industryPic = dataCenterService.getIndustryPicList();
         return AjaxResponseModel.<List<Object>>builder()
                 .code(0)
                 .data(industryPic)
-                .msg("getIndustryPic.do successfully").build();
+                .msg("getIndustryPic.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
 
     /**
@@ -88,11 +93,12 @@ public class DataCenterController {
      */
     @GetMapping("/getScalePic.do")
     public AjaxResponseModel<List<Object>> getScalePic(){
+        long start = System.currentTimeMillis();
         List<Object> scalePic = dataCenterService.getScalePicList();
         return AjaxResponseModel.<List<Object>>builder()
                 .code(0)
                 .data(scalePic)
-                .msg("getScalePic.do successfully").build();
+                .msg("getScalePic.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
 
     /**
@@ -101,11 +107,12 @@ public class DataCenterController {
      */
     @GetMapping("/getProfitPic.do")
     public AjaxResponseModel<Map<String,Object>> getProfitPic(){
+        long start = System.currentTimeMillis();
         Map<String,Object> profitPic = dataCenterService.getProfitPicMap();
         return AjaxResponseModel.<Map<String,Object>>builder()
                 .code(0)
                 .data(profitPic)
-                .msg("getProfitPic.do successfully").build();
+                .msg("getProfitPic.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
 
     /**
@@ -114,10 +121,11 @@ public class DataCenterController {
      */
     @GetMapping("/getMap.do")
     public AjaxResponseModel<Map<String,Object>> getMap(){
+        long start = System.currentTimeMillis();
         Map<String,Object> map = dataCenterService.getMap();
         return AjaxResponseModel.<Map<String,Object>>builder()
                 .code(0)
                 .data(map)
-                .msg("getMap.do successfully").build();
+                .msg("getMap.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
 }

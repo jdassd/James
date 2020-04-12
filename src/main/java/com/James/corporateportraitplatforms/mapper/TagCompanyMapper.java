@@ -19,7 +19,7 @@ public interface TagCompanyMapper {
 
     /**
      * 根据 tid 查找所有 cid
-     * @param tid  
+     * @param tid
      * @return
      */
     @Select("SELECT DISTINCT cid FROM company_tag WHERE tid = #{tid}")
