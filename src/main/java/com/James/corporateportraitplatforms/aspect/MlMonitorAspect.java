@@ -14,11 +14,11 @@ import java.util.Date;
 @Component
 public class MlMonitorAspect {
 
-    @Pointcut("execution(* sweeneyhe.Ml.*(..))")
-    public void mlPointCut(){}
+    @Pointcut("execution(* sweeneyhe.Ml.*(..)) || execution(* com.James.corporateportraitplatforms.service.CsvService.saveCompanyFlag2File(..))")
+    public void useTimePointCut(){}
 
-    @Around(value = "mlPointCut()")
-    public Object initAround(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around(value = "useTimePointCut()")
+    public Object methodAround(ProceedingJoinPoint joinPoint) throws Throwable {
         final String methodName = joinPoint.getSignature().getName();
 
         log.info("Start running {}", methodName);
@@ -27,7 +27,7 @@ public class MlMonitorAspect {
         final Object proceedReturn = joinPoint.proceed();
         long endTime = new Date().getTime();
 
-        log.info("{} used time {}s", methodName, (endTime - startTime) / 1000);
+        log.info("{} used time {}s", methodName, ((double)endTime - startTime) / 1000);
 
         return proceedReturn;
     }

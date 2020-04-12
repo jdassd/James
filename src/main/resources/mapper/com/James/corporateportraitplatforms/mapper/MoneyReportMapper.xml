@@ -37,19 +37,6 @@
         project_financing_and_policy_financing_quotas,
         project_financing_and_policy_financing_costs)
         values
-        <foreach collection="list" index="index" item="item" separator=",">
-            (
-            #{item.id,jdbcType=VARCHAR},
-            #{item.year,jdbcType=VARCHAR},
-            #{item.debt_financing_line,jdbcType=VARCHAR},
-            #{item.debt_financing_cost,jdbcType=VARCHAR},
-            #{item.equity_financing_line,jdbcType=VARCHAR},
-            #{item.equity_financing_cost,jdbcType=VARCHAR},
-            #{item.internal_financing_and_trade_financing_line,jdbcType=VARCHAR},
-            #{item.internal_financing_and_trade_financing_costs,jdbcType=VARCHAR},
-            #{item.project_financing_and_policy_financing_quotas,jdbcType=VARCHAR},
-            #{item.project_financing_and_policy_financing_costs,jdbcType=VARCHAR}
-            )
-        </foreach>
+        <foreach collection="list" index="index" item="item" separator=",">(#{item.id,jdbcType=VARCHAR},#{item.year,jdbcType=VARCHAR},#{item.debt_financing_line,jdbcType=VARCHAR},#{item.debt_financing_cost,jdbcType=VARCHAR},#{item.equity_financing_line,jdbcType=VARCHAR},#{item.equity_financing_cost,jdbcType=VARCHAR},#{item.internal_financing_and_trade_financing_line,jdbcType=VARCHAR},#{item.internal_financing_and_trade_financing_costs,jdbcType=VARCHAR},#{item.project_financing_and_policy_financing_quotas,jdbcType=VARCHAR},#{item.project_financing_and_policy_financing_costs,jdbcType=VARCHAR})</foreach>
     </insert>
 </mapper>

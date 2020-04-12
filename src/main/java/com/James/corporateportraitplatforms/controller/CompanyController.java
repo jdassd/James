@@ -1,11 +1,9 @@
 package com.James.corporateportraitplatforms.controller;
 
-import com.James.corporateportraitplatforms.model.AjaxResponseModel;
-import com.James.corporateportraitplatforms.model.Company;
-import com.James.corporateportraitplatforms.model.CompanyScore;
-import com.James.corporateportraitplatforms.model.Tag;
+import com.James.corporateportraitplatforms.model.*;
 import com.James.corporateportraitplatforms.service.CompanyScoreService;
 import com.James.corporateportraitplatforms.service.CompanyService;
+import com.James.corporateportraitplatforms.service.CompanyShowDataService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +22,8 @@ public class CompanyController {
     private CompanyService companyService;
     @Autowired
     private CompanyScoreService companyScoreService;
+    @Autowired
+    private CompanyShowDataService companyShowDataService;
 
     @GetMapping("/get-company-all")
     public AjaxResponseModel<PageInfo<Company>> getCompanyList(@RequestParam(defaultValue = "1") int pageNum,
@@ -149,6 +149,14 @@ public class CompanyController {
     public AjaxResponseModel<CompanyScore> getCompanyScore(@PathVariable String id) {
         return AjaxResponseModel.<CompanyScore>builder().
                 data(companyScoreService.getCompanyScoreByCid(id)).
+                code(0).
+                build();
+    }
+
+    @GetMapping("/get-show-data/{id}")
+    public AjaxResponseModel<List<CompanyShowData>> getCompanyShowData(@PathVariable String id) {
+        return AjaxResponseModel.<List<CompanyShowData>>builder().
+                data(companyShowDataService.getShowDataById(id)).
                 code(0).
                 build();
     }

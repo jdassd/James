@@ -21,13 +21,6 @@
         insert into knowledge_report (cid, patent,
         trademark, copyright)
         values
-        <foreach collection="list" index="index" item="item" separator=",">
-            (
-            #{item.id,jdbcType=VARCHAR},
-            #{item.patent,jdbcType=VARCHAR},
-            #{item.trademark,jdbcType=VARCHAR},
-            #{item.copyright,jdbcType=VARCHAR}
-            )
-        </foreach>
+        <foreach collection="list" index="index" item="item" separator=",">(#{item.id,jdbcType=VARCHAR},#{item.patent,jdbcType=VARCHAR},#{item.trademark,jdbcType=VARCHAR},#{item.copyright,jdbcType=VARCHAR})</foreach>
     </insert>
 </mapper>

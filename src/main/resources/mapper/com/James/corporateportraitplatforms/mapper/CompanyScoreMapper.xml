@@ -8,18 +8,7 @@
         INSERT INTO score(cid, score, roe, roa, turnover_of_total_assets,
         asset_liability_ratio, growth_rate_of_operation_income, growth_rate_of_total_assets)
         VALUES
-        <foreach collection="list" item="item" index="i" separator=",">
-            <trim prefix="(" suffix=")">
-                #{item.id,jdbcType=VARCHAR},
-                #{item.score,jdbcType=DOUBLE},
-                #{item.roe,jdbcType=DOUBLE},
-                #{item.roa,jdbcType=DOUBLE},
-                #{item.turnover_of_total_assets,jdbcType=DOUBLE},
-                #{item.asset_liability_ratio,jdbcType=DOUBLE},
-                #{item.growth_rate_of_operation_income,jdbcType=DOUBLE},
-                #{item.growth_rate_of_total_assets,jdbcType=DOUBLE}
-            </trim>
-        </foreach>
+        <foreach collection="list" item="item" index="i" separator=","><trim prefix="(" suffix=")">#{item.id,jdbcType=VARCHAR},#{item.score,jdbcType=DOUBLE},#{item.roe,jdbcType=DOUBLE},#{item.roa,jdbcType=DOUBLE},#{item.turnover_of_total_assets,jdbcType=DOUBLE},#{item.asset_liability_ratio,jdbcType=DOUBLE},#{item.growth_rate_of_operation_income,jdbcType=DOUBLE},#{item.growth_rate_of_total_assets,jdbcType=DOUBLE}</trim></foreach>
     </insert>
 
 </mapper>

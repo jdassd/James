@@ -3,14 +3,18 @@ package com.James.corporateportraitplatforms.utils;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.spark.sql.catalyst.catalog.DatabaseEvent;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * 阿里云 OSS 工具类
  */
+@Slf4j
 public class AliOssUtils {
     // Endpoint 北京
     private static String endpoint = "http://oss-cn-beijing.aliyuncs.com";
@@ -24,6 +28,7 @@ public class AliOssUtils {
      * @throws IOException
      */
     public static boolean down() throws IOException {
+        long startTime = new Date().getTime();
         boolean flag = false;
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -75,6 +80,7 @@ public class AliOssUtils {
         }
         //关闭OSSClient。
         ossClient.shutdown();
+        log.info("down dataFile and change encoding used Time {}", (double)(new Date().getTime() - startTime) / 1000);
         return flag;
     }
 
@@ -103,6 +109,7 @@ public class AliOssUtils {
     }
 
     public static boolean down_() throws IOException {
+        long startTime = new Date().getTime();
         boolean flag = false;
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -145,6 +152,7 @@ public class AliOssUtils {
                         //System.out.println("下载了-------> " + len * 100 / objectSummary.getSize() + "%");
                     }
                     out.close();
+                    br.close();
                 }
                 // 数据读取完成后，获取的流必须关闭，否则会造成连接泄漏，导致请求无连接可用，程序无法正常工作。
                 content.close();
@@ -152,6 +160,7 @@ public class AliOssUtils {
         }
         //关闭OSSClient。
         ossClient.shutdown();
+        log.info("down dataFile and change encoding used Time {}", (double)(new Date().getTime() - startTime) / 1000);
         return flag;
     }
 }

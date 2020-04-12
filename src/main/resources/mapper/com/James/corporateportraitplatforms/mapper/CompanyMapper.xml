@@ -30,18 +30,7 @@
         city, company_type,
         controller_type, controller_proportion, flag)
         values
-        <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.id,jdbcType=VARCHAR},
-            #{item.reg_time,jdbcType=VARCHAR},
-            #{item.reg_money,jdbcType=VARCHAR},
-            #{item.industry,jdbcType=VARCHAR},
-            #{item.area,jdbcType=VARCHAR},
-            #{item.company_type,jdbcType=VARCHAR},
-            #{item.control_type,jdbcType=VARCHAR},
-            #{item.control_own_proportion,jdbcType=VARCHAR},
-            '${@com.James.corporateportraitplatforms.utils.getFlag2MapUtil@getFlag(flagMap, item.id)}'
-            )
-        </foreach>
+        <foreach collection="list" index="index" item="item" separator=",">(#{item.id,jdbcType=VARCHAR},#{item.reg_time,jdbcType=VARCHAR},#{item.reg_money,jdbcType=VARCHAR},#{item.industry,jdbcType=VARCHAR},#{item.area,jdbcType=VARCHAR},#{item.company_type,jdbcType=VARCHAR},#{item.control_type,jdbcType=VARCHAR},#{item.control_own_proportion,jdbcType=VARCHAR},'${@com.James.corporateportraitplatforms.utils.getFlag2MapUtil@getFlag(flagMap, item.id)}')</foreach>
     </insert>
 
 <!--    <update id="updateFlagBatch" parameterType="java.util.Map">-->

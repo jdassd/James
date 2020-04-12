@@ -21,6 +21,10 @@ public class SqlInsertMonitorAspect {
     public void SqlBatchPointCutByMoneyReport() {}
     @Pointcut("execution(* com.James.corporateportraitplatforms.mapper.YearReportMapper.insertBatch*(..))")
     public void SqlBatchPointCutByYearReport() {}
+    @Pointcut("execution(* com.James.corporateportraitplatforms.mapper.CompanyScoreMapper.insertBatch*(..))")
+    public void SqlBatchPointCutByScore() {}
+    @Pointcut("execution(* com.James.corporateportraitplatforms.mapper.CompanyShowDataMapper.insertBatch*(..))")
+    public void SqlBatchPointCutByShowData() {}
 
     @Around(value = "SqlBatchPointCutByCompany()")
     public Object takeUpTimeByCompany(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -38,6 +42,15 @@ public class SqlInsertMonitorAspect {
     @Around(value = "SqlBatchPointCutByYearReport()")
     public Object takeUpTimeByYearReport(ProceedingJoinPoint joinPoint) throws Throwable {
         return handleJoinPoint(joinPoint, "YearReportMapper");
+    }
+
+    @Around(value = "SqlBatchPointCutByScore()")
+    public Object takeUpTimeByScore(ProceedingJoinPoint joinPoint) throws Throwable {
+        return handleJoinPoint(joinPoint, "scoreMapper");
+    }
+    @Around(value = "SqlBatchPointCutByShowData()")
+    public Object takeUpTimeByShowData(ProceedingJoinPoint joinPoint) throws Throwable {
+        return handleJoinPoint(joinPoint, "showDataMapper");
     }
 
     private Object handleJoinPoint(ProceedingJoinPoint joinPoint, String label) throws Throwable {

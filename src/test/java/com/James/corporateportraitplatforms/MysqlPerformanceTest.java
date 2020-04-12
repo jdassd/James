@@ -4,6 +4,7 @@ package com.James.corporateportraitplatforms;
 import com.James.corporateportraitplatforms.mapper.CompanyMapper;
 import com.James.corporateportraitplatforms.mapper.DataMapper;
 import com.James.corporateportraitplatforms.model.Company;
+import com.James.corporateportraitplatforms.service.CsvService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class MysqlPerformanceTest {
     private CompanyMapper companyMapper;
     @Autowired
     private DataMapper dataMapper;
+
+    @Autowired
+    private CsvService csvService;
 
     @Test
     public void companyBatchInsertTest() {
@@ -98,5 +102,15 @@ public class MysqlPerformanceTest {
         final HashMap<Integer, Integer> map = new HashMap<>();
         map.put(8888888, 1);
         companyMapper.insertBatch_(Collections.singletonList(baseBean), map);
+    }
+
+    @Test
+    public void csvTest() {
+//        HashMap<Integer, Integer> map = new HashMap<>();
+//        map.put(1, 1);
+//        map.put(2, 1);
+//        csvService.saveCompanyFlag2File(map);
+
+//        csvService.downCsvFile();
     }
 }
