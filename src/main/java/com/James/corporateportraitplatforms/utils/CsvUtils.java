@@ -3,9 +3,12 @@ package com.James.corporateportraitplatforms.utils;
 import com.James.corporateportraitplatforms.mapper.*;
 import com.James.corporateportraitplatforms.model.*;
 import com.James.corporateportraitplatforms.service.CsvService;
+import com.James.corporateportraitplatforms.service.DataCenterService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sweeneyhe.bean.ScoreBean;
+import sweeneyhe.bean.ShowData;
 import sweeneyhe.bean.YearBean;
 
 import javax.annotation.PostConstruct;
@@ -31,6 +34,8 @@ public class CsvUtils {
 
     public static Map<Integer,Integer> flagsMap = null;
     public static List<YearBean> yearBeanList = null;
+    public static Map<Integer, List<ShowData>> showDataMap = null;
+    public static List<ScoreBean> scoreBeanList = null;
 
     private static KnowledgeReportMapper knowledgeReportMapper;
     private static CompanyMapper companyMapper;
@@ -356,6 +361,13 @@ public class CsvUtils {
         final Map<Integer, Integer> flags = CharactersUtils.getFlags();
         csvService.saveCompanyFlag2File(flags);
         flagsMap = flags;
+        showDataMap = CharactersUtils.getCompanyShowData();
+        scoreBeanList = CharactersUtils.getCompanyScoreList();
+        //提前开线程加载财报数据
+        DataCenterService.getFinancialReport();
+        companyShowDataMapper.insertBatch(showDataMap);
+        companyScoreMapper.insertBatch(scoreBeanList);
+
         companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
         final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
         tagCompanyMapper.insertBatch(tags);
@@ -364,7 +376,7 @@ public class CsvUtils {
         yearReportMapper.insertBatch_(yearBeanList);
         moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
 
-        companyShowDataMapper.insertBatch(CharactersUtils.getCompanyShowData());
-        companyScoreMapper.insertBatch(CharactersUtils.getCompanyScoreList());
+        //建议 JVM 垃圾回收，优化服务器内存占用
+        System.gc();
     }
 }

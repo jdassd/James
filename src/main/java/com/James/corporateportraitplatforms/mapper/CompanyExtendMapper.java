@@ -124,4 +124,22 @@ public interface CompanyExtendMapper {
             @Result(column="flag", property="flag", jdbcType=JdbcType.VARCHAR)
     })
     List<Company> selectByFlag(@Param("flag") String flag);
+
+    /**
+     * 获取僵尸或非僵尸企业数量
+     *
+     * @return
+     */
+    @Select({
+            "select count(id) from company where flag = #{flag,jdbcType=VARCHAR}"
+    })
+    int selectCountByFlag(@Param("flag") String flag);
+
+    /**
+     * 获取指定企业 id 列表里的僵尸或非僵尸企业数量
+     * @param flag 僵尸企业标志
+     * @param cidList 企业 id 列表
+     * @return
+     */
+    int selectCountByFlagAndCidList(String flag, List<String> cidList);
 }

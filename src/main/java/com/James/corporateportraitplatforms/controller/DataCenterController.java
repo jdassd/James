@@ -128,4 +128,18 @@ public class DataCenterController {
                 .data(map)
                 .msg("getMap.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
     }
+
+    /**
+     * 获取财报
+     * @return
+     */
+    @GetMapping("/getFinancialReport.do")
+    public AjaxResponseModel<Map<String,Object>> getFinancialReport(){
+        long start = System.currentTimeMillis();
+        Map<String,Object> map = DataCenterService.getFinancialReport();
+        return AjaxResponseModel.<Map<String,Object>>builder()
+                .code(0)
+                .data(map)
+                .msg("getMap.do successfully" + " 耗时：" +(System.currentTimeMillis() - start) + "毫秒").build();
+    }
 }

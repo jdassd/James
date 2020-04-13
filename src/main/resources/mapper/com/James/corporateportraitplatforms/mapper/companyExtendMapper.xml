@@ -233,4 +233,20 @@
             AND id = NULL
         </if>
     </select>
+
+    <select id="selectCountByFlagAndCidList" parameterType="java.util.List" resultType="Int">
+        SELECT count(id) FROM company
+        WHERE flag = #{flag,jdbcType=VARCHAR}
+        <if test="cidList[0] != 'null'">
+            AND id IN
+            <trim prefix="(" suffix=")">
+                <foreach collection="cidList" item="cid" separator=",">
+                    #{cid, jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </if>
+        <if test="cidList[0] == 'null'">
+            AND id = NULL
+        </if>
+    </select>
 </mapper>

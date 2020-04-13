@@ -7,6 +7,8 @@ import com.James.corporateportraitplatforms.utils.CsvUtils;
 import org.apache.spark.sql.sources.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sweeneyhe.bean.ScoreBean;
+import sweeneyhe.bean.ShowData;
 import sweeneyhe.bean.YearBean;
 
 import java.util.*;
@@ -19,6 +21,8 @@ public class DataCenterService {
 
     @Autowired
     private TagCompanyMapper tagCompanyMapper;
+
+    private static Map<String, Object> financialReportMap = null;
 
     /**
      * 获取按省份的维度排序表
@@ -67,8 +71,10 @@ public class DataCenterService {
             if(cidList.size() == 0){
                 cidList.add("null");
             }
-            count1 = companyExtendMapper.selectByFlagAndCidList("1", cidList).size();
-            count2 = companyExtendMapper.selectByFlagAndCidList("0", cidList).size();
+            //count1 = companyExtendMapper.selectByFlagAndCidList("1", cidList).size();
+            //count2 = companyExtendMapper.selectByFlagAndCidList("0", cidList).size();
+            count1 = companyExtendMapper.selectCountByFlagAndCidList("1",cidList);
+            count2 = companyExtendMapper.selectCountByFlagAndCidList("0",cidList);
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("key",scaleList.get(i));
             hashMap.put("yes",""+count1);
@@ -102,8 +108,10 @@ public class DataCenterService {
             if(cidList.size() == 0){
                 cidList.add("null");
             }
-            count1 = companyExtendMapper.selectByFlagAndCidList("1", cidList).size();
-            count2 = companyExtendMapper.selectByFlagAndCidList("0", cidList).size();
+            //count1 = companyExtendMapper.selectByFlagAndCidList("1", cidList).size();
+            //count2 = companyExtendMapper.selectByFlagAndCidList("0", cidList).size();
+            count1 = companyExtendMapper.selectCountByFlagAndCidList("1",cidList);
+            count2 = companyExtendMapper.selectCountByFlagAndCidList("0",cidList);
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("key",IndustryList.get(i));
             hashMap.put("yes",""+count1);
@@ -125,8 +133,10 @@ public class DataCenterService {
      */
     public Map<String,Object> getNumWithFlag(){
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("isNum",companyExtendMapper.selectByFlag("1").size());
-        hashMap.put("notNum",companyExtendMapper.selectByFlag("0").size());
+        //hashMap.put("isNum",companyExtendMapper.selectByFlag("1").size());
+        //hashMap.put("notNum",companyExtendMapper.selectByFlag("0").size());
+        hashMap.put("isNum",companyExtendMapper.selectCountByFlag("1"));
+        hashMap.put("notNum",companyExtendMapper.selectCountByFlag("0"));
         return hashMap;
     }
 
@@ -149,8 +159,10 @@ public class DataCenterService {
             if(cidList.size() == 0){
                 cidList.add("null");
             }
-            count1 = companyExtendMapper.selectByFlagAndCidList("1", cidList).size();
-            count2 = companyExtendMapper.selectByFlagAndCidList("0", cidList).size();
+            //count1 = companyExtendMapper.selectByFlagAndCidList("1", cidList).size();
+            //count2 = companyExtendMapper.selectByFlagAndCidList("0", cidList).size();
+            count1 = companyExtendMapper.selectCountByFlagAndCidList("1",cidList);
+            count2 = companyExtendMapper.selectCountByFlagAndCidList("0",cidList);
             num[0][i] = count1;
             num[1][i] = count2;
         }
@@ -177,8 +189,10 @@ public class DataCenterService {
             if(cidList.size() == 0){
                 cidList.add("null");
             }
-            count1 = companyExtendMapper.selectByFlagAndCidList("1", cidList).size();
-            count2 = companyExtendMapper.selectByFlagAndCidList("0", cidList).size();
+            //count1 = companyExtendMapper.selectByFlagAndCidList("1", cidList).size();
+            //count2 = companyExtendMapper.selectByFlagAndCidList("0", cidList).size();
+            count1 = companyExtendMapper.selectCountByFlagAndCidList("1",cidList);
+            count2 = companyExtendMapper.selectCountByFlagAndCidList("0",cidList);
             num[0][i] = count1;
             num[1][i] = count2;
         }
@@ -257,5 +271,73 @@ public class DataCenterService {
         map.put("value",valueList);
         map.put("max",max);
         return map;
+    }
+
+    /**
+     * 获取财报数据
+     * @return
+     */
+    public static Map<String, Object> getFinancialReport(){
+        if(financialReportMap == null){
+            financialReportMap = new HashMap<>();
+            new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    int isSumScore = 0,notSumScore = 0;
+                    double[] isSumRoa = new double[3],isSumAssetLiabilityRatio = new double[3],notSumRoa = new double[3],notSumAssetLiabilityRatio = new double[3];
+                    Map<Integer, Integer> flags = CsvUtils.flagsMap;
+                    Map<Integer, List<ShowData>> showDataMap = CsvUtils.showDataMap;
+                    List<ScoreBean> scoreBeanList = CsvUtils.scoreBeanList;
+                    if(showDataMap.size() == 0){
+                        return;
+                    }
+                    Map<String, Object> isMap = new HashMap<>();
+                    Map<String, Object> notMap = new HashMap<>();
+                    int isLength = 0,notLength = 0,index = 0;
+                    for(ScoreBean scoreBean : scoreBeanList){
+                        for(ShowData showData : showDataMap.get(scoreBean.id())){
+                            switch (showData.year()){
+                                case 2015:
+                                    index = 0;
+                                    break;
+                                case 2016:
+                                    index = 1;
+                                    break;
+                                case 2017:
+                                    index = 2;
+                                    break;
+                            }
+                            if(flags.get(scoreBean.id()) == 1){
+                                isSumRoa[index] += showData.roa();
+                                isSumAssetLiabilityRatio[index] += showData.asset_liability_ratio();
+                            }else{
+                                notSumRoa[index] += showData.roa();
+                                notSumAssetLiabilityRatio[index] += showData.asset_liability_ratio();
+                            }
+                        }
+                        if(flags.get(scoreBean.id()) == 1){
+                            isSumScore += scoreBean.score();
+                            isLength++;
+                        }else{
+                            notSumScore += scoreBean.score();
+                            notLength++;
+                        }
+                    }
+                    isMap.put("isScoreAvg",isSumScore/isLength);
+                    isMap.put("roa",isSumRoa);
+                    isMap.put("assetLiabilityRatio",isSumAssetLiabilityRatio);
+                    isMap.put("isNum",isLength);
+                    notMap.put("notScoreAvg",notSumScore/notLength);
+                    notMap.put("roa",notSumRoa);
+                    notMap.put("assetLiabilityRatio",notSumAssetLiabilityRatio);
+                    notMap.put("notNum",notLength);
+                    financialReportMap.put("is",isMap);
+                    financialReportMap.put("not",notMap);
+                }
+            }).start();
+            return null;
+        }else{
+            return financialReportMap;
+        }
     }
 }
