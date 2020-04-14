@@ -146,12 +146,12 @@ public class DataCenterService {
      */
     public List<Object> getIndustryPicList(){
         ArrayList<Object> list = new ArrayList<>();
-        List<String> IndustryList = new ArrayList<>();
-        IndustryList.add("服务业");
-        IndustryList.add("制造业");
-        IndustryList.add("工业");
-        IndustryList.add("交通运输业");
-        IndustryList.add("零售业");
+        //List<String> industryList = new ArrayList<>();
+        //industryList.add("服务业");
+        //industryList.add("制造业");
+        //industryList.add("工业");
+        //industryList.add("交通运输业");
+        //industryList.add("零售业");
         int count1,count2;
         int[][] num = new int[2][5];
         for(int i = 0 ; i < 5 ; i++){
@@ -177,11 +177,11 @@ public class DataCenterService {
      */
     public List<Object> getScalePicList(){
         ArrayList<Object> list = new ArrayList<>();
-        List<String> scaleList = new ArrayList<>();
-        scaleList.add("大型企业");
-        scaleList.add("中型企业");
-        scaleList.add("小型企业");
-        scaleList.add("微型企业");
+        //List<String> scaleList = new ArrayList<>();
+        //scaleList.add("大型企业");
+        //scaleList.add("中型企业");
+        //scaleList.add("小型企业");
+        //scaleList.add("微型企业");
         int count1,count2;
         int[][] num = new int[2][4];
         for(int i = 0 ; i < 4 ; i++){
