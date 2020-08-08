@@ -32,8 +32,7 @@ public class CsvService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
         File path = getDir();
 
-        if (!path.exists())
-            path.mkdirs();
+        if (!path.exists()) path.mkdirs();
 
         String csvFilePath = path.getPath() + File.separatorChar + "James-company-sort-result-" + sdf.format(new Date()) + ".csv";
 

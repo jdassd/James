@@ -31,11 +31,12 @@ public class CompanyController {
                                                                @RequestParam(name = "selectCity",defaultValue = "null") List<String> cityList,
                                                                @RequestParam(name = "selectIndustry",defaultValue = "null") List<String> industry,
                                                                @RequestParam(name = "selectCompanyType",defaultValue = "null")List<String> companyType,
-                                                               @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType) {
+                                                               @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType,
+                                                               @RequestParam(name = "companyFlagType",defaultValue = "null")String companyFlagType) {
         PageHelper.startPage(pageNum, pageSize);
         return AjaxResponseModel.<PageInfo<Company>>builder()
                 .code(0)
-                .data(new PageInfo<>(companyService.findAll(cityList, industry, companyType, controllerType)))
+                .data(new PageInfo<>(companyService.findAll(cityList, industry, companyType, controllerType, companyFlagType)))
                 .build();
     }
 
@@ -55,12 +56,13 @@ public class CompanyController {
                                                                  String city,
                                                                  @RequestParam(name = "selectIndustry",defaultValue = "null") List<String> industry,
                                                                  @RequestParam(name = "selectCompanyType",defaultValue = "null")List<String> companyType,
-                                                                 @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType) {
+                                                                 @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType,
+                                                                 @RequestParam(name = "companyFlagType",defaultValue = "null")String companyFlagType) {
         log.info("getCompanyByCity {}", city);
         PageHelper.startPage(pageNum, pageSize);
         return AjaxResponseModel.<PageInfo<Company>>builder()
                 .code(0)
-                .data(new PageInfo<>(companyService.findByCity(city, industry, companyType, controllerType)))
+                .data(new PageInfo<>(companyService.findByCity(city, industry, companyType, controllerType, companyFlagType)))
                 .build();
     }
 
@@ -70,11 +72,12 @@ public class CompanyController {
                                                                      String industry,
                                                                      @RequestParam(name = "selectCity",defaultValue = "null") List<String> cityList,
                                                                      @RequestParam(name = "selectCompanyType",defaultValue = "null")List<String> companyType,
-                                                                     @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType) {
+                                                                     @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType,
+                                                                     @RequestParam(name = "companyFlagType",defaultValue = "null")String companyFlagType) {
         PageHelper.startPage(pageNum, pageSize);
         return AjaxResponseModel.<PageInfo<Company>>builder()
                 .code(0)
-                .data(new PageInfo<>(companyService.findByIndustry(industry, cityList, companyType, controllerType)))
+                .data(new PageInfo<>(companyService.findByIndustry(industry, cityList, companyType, controllerType, companyFlagType)))
                 .build();
     }
 
@@ -84,11 +87,12 @@ public class CompanyController {
                                                                         String companyType,
                                                                         @RequestParam(name = "selectCity",defaultValue = "null") List<String> cityList,
                                                                         @RequestParam(name = "selectIndustry",defaultValue = "null") List<String> industry,
-                                                                        @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType) {
+                                                                        @RequestParam(name = "selectControllerType",defaultValue = "null")List<String> controllerType,
+                                                                        @RequestParam(name = "companyFlagType",defaultValue = "null")String companyFlagType) {
         PageHelper.startPage(pageNum, pageSize);
         return AjaxResponseModel.<PageInfo<Company>>builder()
                 .code(0)
-                .data(new PageInfo<>(companyService.findByCompanyType(companyType, cityList, industry, controllerType)))
+                .data(new PageInfo<>(companyService.findByCompanyType(companyType, cityList, industry, controllerType, companyFlagType)))
                 .build();
     }
 
@@ -98,11 +102,12 @@ public class CompanyController {
                                                                            String controllerType,
                                                                            @RequestParam(name = "selectCity",defaultValue = "null") List<String> cityList,
                                                                            @RequestParam(name = "selectIndustry",defaultValue = "null") List<String> industry,
-                                                                           @RequestParam(name = "selectCompanyType",defaultValue = "null")List<String> companyType) {
+                                                                           @RequestParam(name = "selectCompanyType",defaultValue = "null")List<String> companyType,
+                                                                           @RequestParam(name = "companyFlagType",defaultValue = "null")String companyFlagType) {
         PageHelper.startPage(pageNum, pageSize);
         return AjaxResponseModel.<PageInfo<Company>>builder()
                 .code(0)
-                .data(new PageInfo<>(companyService.findByControllerType(controllerType, cityList, industry, companyType)))
+                .data(new PageInfo<>(companyService.findByControllerType(controllerType, cityList, industry, companyType, companyFlagType)))
                 .build();
     }
 

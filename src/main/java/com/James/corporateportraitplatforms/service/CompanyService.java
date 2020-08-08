@@ -22,28 +22,28 @@ public class CompanyService {
     private TagExtendMapper tagExtendMapper;
 
 
-    public List<Company> findAll(List<String> city, List<String> industry, List<String> companyType, List<String> controllerType) {
-        return companyExtendMapper.selectAllAndCondition(city, industry, companyType, controllerType);
+    public List<Company> findAll(List<String> city, List<String> industry, List<String> companyType, List<String> controllerType, String companyFlagType) {
+        return companyExtendMapper.selectAllAndCondition(city, industry, companyType, controllerType, companyFlagType);
     }
 
     public Company findById(String id) {
         return companyMapper.selectByPrimaryKey(id);
     }
 
-    public List<Company> findByCity(String city, List<String> industry, List<String> companyType, List<String> controllerType) {
-        return companyExtendMapper.selectByCity("%" + city + "%",industry, companyType, controllerType);
+    public List<Company> findByCity(String city, List<String> industry, List<String> companyType, List<String> controllerType, String companyFlagType) {
+        return companyExtendMapper.selectByCity("%" + city + "%",industry, companyType, controllerType, companyFlagType);
     }
 
-    public List<Company> findByIndustry(String industry, List<String> city, List<String> companyType, List<String> controllerType) {
-        return companyExtendMapper.selectByIndustry("%" + industry + "%", city, companyType, controllerType);
+    public List<Company> findByIndustry(String industry, List<String> city, List<String> companyType, List<String> controllerType, String companyFlagType) {
+        return companyExtendMapper.selectByIndustry("%" + industry + "%", city, companyType, controllerType, companyFlagType);
     }
 
-    public List<Company> findByCompanyType(String companyType, List<String> city, List<String> industry, List<String> controllerType) {
-        return companyExtendMapper.selectByCompanyType("%" + companyType + "%", city, industry, controllerType);
+    public List<Company> findByCompanyType(String companyType, List<String> city, List<String> industry, List<String> controllerType, String companyFlagType) {
+        return companyExtendMapper.selectByCompanyType("%" + companyType + "%", city, industry, controllerType, companyFlagType);
     }
 
-    public List<Company> findByControllerType(String controllerType, List<String> city, List<String> industry, List<String> companyType) {
-        return companyExtendMapper.selectByControllerType("%" + controllerType + "%", city, industry, companyType);
+    public List<Company> findByControllerType(String controllerType, List<String> city, List<String> industry, List<String> companyType, String companyFlagType) {
+        return companyExtendMapper.selectByControllerType("%" + controllerType + "%", city, industry, companyType, companyFlagType);
     }
 
     public List<Tag> findCompanyTagById(String id) {

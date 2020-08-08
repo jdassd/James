@@ -27,19 +27,20 @@ public class CsvToMysqlService {
      * 302 : 数据文件不足且无法删除数据文件
      * 1   : 操作成功
      */
-    public int csvToMysql() {
+    public int csvToMysql() throws IOException {
         //下载 OSS 中的数据文件
         try {
             if (!AliOssUtils.down_()) {
-                //在阿里云 OSS 同步删除
-                if (!AliOssUtils.deleteFiles()) {
-                    return 302;
-                }
                 return 102;
             }
         } catch (IOException e) {
             e.printStackTrace();
             return 101;
+        } finally {
+            //在阿里云 OSS 同步删除
+            if (!AliOssUtils.deleteFiles()) {
+                return 302;
+            }
         }
 
 

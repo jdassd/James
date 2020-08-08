@@ -41,16 +41,16 @@ public interface CompanyExtendMapper {
     })
     Company selectByPrimaryKeyComplete(String id);
 
-    List<Company> selectAllAndCondition(List<String> city, List<String> industry, List<String> companyType, List<String> controllerType);
+    List<Company> selectAllAndCondition(List<String> city, List<String> industry, List<String> companyType, List<String> controllerType, String companyFlagType);
 
 
-    List<Company> selectByCity(String city, List<String> industry, List<String> companyType, List<String> controllerType);
+    List<Company> selectByCity(String city, List<String> industry, List<String> companyType, List<String> controllerType, String companyFlagType);
 
-    List<Company> selectByIndustry(String industry, List<String> city, List<String> companyType, List<String> controllerType);
+    List<Company> selectByIndustry(String industry, List<String> city, List<String> companyType, List<String> controllerType, String companyFlagType);
 
-    List<Company> selectByCompanyType(String companyType, List<String> city, List<String> industry, List<String> controllerType);
+    List<Company> selectByCompanyType(String companyType, List<String> city, List<String> industry, List<String> controllerType, String companyFlagType);
 
-    List<Company> selectByControllerType(String controllerType, List<String> city, List<String> industry, List<String> companyType);
+    List<Company> selectByControllerType(String controllerType, List<String> city, List<String> industry, List<String> companyType, String companyFlagType);
 
 
     //    @Select("SELECT industry as name, COUNT(id) as count FROM company GROUP BY industry")

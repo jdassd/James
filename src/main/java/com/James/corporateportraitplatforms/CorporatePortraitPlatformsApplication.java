@@ -27,6 +27,7 @@ public class CorporatePortraitPlatformsApplication implements CommandLineRunner 
 	@Override
 	public void run(String... args) throws Exception {
 //		batchTest();
+		
 
 	}
 

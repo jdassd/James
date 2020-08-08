@@ -12,15 +12,20 @@ spring:
 #    url: jdbc:mysql://59.110.143.147:3306/bisai?serverTimezone=Asia/Shanghai
 #    username: bisai
 #    password: qihang123456789
+#    url: jdbc:mysql:///james?serverTimezone=Asia/Shanghai
+#    username: root
+#    password: root123root
     url: jdbc:mysql:///bisai?serverTimezone=Asia/Shanghai
     username: root
-    password: 199944aa
+    password: 123456
     hikari:
       minimum-idle: 3
       maximum-pool-size: 10
       # 不能小于 30000
       max-lifetime: 30000
       connection-test-query: SELECT 1
+  profiles:
+    active:
 
 mybatis:
   configuration:
@@ -41,8 +46,8 @@ logging:
   file:
     path: com/James/logs/
 
-
 my-aspect:
   sql-split:
     enableSqlSplit: true
     blockSize: 6500
+

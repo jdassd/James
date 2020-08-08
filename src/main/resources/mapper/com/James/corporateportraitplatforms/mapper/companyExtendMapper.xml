@@ -56,6 +56,9 @@
                 </foreach>
             </trim>
         </if>
+        <if test="companyFlagType != 'null'">
+            AND flag = #{companyFlagType}
+        </if>
     </select>
 
     <select id="selectByCity" parameterType="java.util.List" resultType="company">
@@ -86,6 +89,9 @@
                     #{item, jdbcType=VARCHAR}
                 </foreach>
             </trim>
+        </if>
+        <if test="companyFlagType != 'null'">
+            AND flag = #{companyFlagType}
         </if>
     </select>
 
@@ -121,6 +127,9 @@
                 </foreach>
             </trim>
         </if>
+        <if test="companyFlagType != 'null'">
+            AND flag = #{companyFlagType}
+        </if>
     </select>
 
 
@@ -153,6 +162,9 @@
                 </foreach>
             </trim>
         </if>
+        <if test="companyFlagType != 'null'">
+            AND flag = #{companyFlagType}
+        </if>
     </select>
 
     <select id="selectByControllerType" parameterType="java.util.List" resultType="company">
@@ -183,6 +195,9 @@
                     #{item, jdbcType=VARCHAR}
                 </foreach>
             </trim>
+        </if>
+        <if test="companyFlagType != 'null'">
+            AND flag = #{companyFlagType}
         </if>
     </select>
 

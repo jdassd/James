@@ -32,7 +32,7 @@ public class CsvUtils {
     @Autowired
     private YearReportMapper yearReportMapper2;
 
-    public static Map<Integer,Integer> flagsMap = null;
+    public static Map<Integer, Integer> flagsMap = null;
     public static List<YearBean> yearBeanList = null;
     public static Map<Integer, List<ShowData>> showDataMap = null;
     public static List<ScoreBean> scoreBeanList = null;
@@ -44,7 +44,7 @@ public class CsvUtils {
     private static TagCompanyMapper tagCompanyMapper;
 
     @PostConstruct
-    public void beforeInit(){
+    public void beforeInit() {
         knowledgeReportMapper = knowledgeReportMapper2;
         companyMapper = companyMapper2;
         moneyReportMapper = moneyReportMapper2;
@@ -66,10 +66,12 @@ public class CsvUtils {
     public void setCompanyScoreMapper(CompanyScoreMapper scoreMapper) {
         CsvUtils.companyScoreMapper = scoreMapper;
     }
+
     @Autowired
     public void setCompanyShowDataMapper(CompanyShowDataMapper companyShowDataMapper) {
         CsvUtils.companyShowDataMapper = companyShowDataMapper;
     }
+
     @Autowired
     public void setCsvService(CsvService service) {
         CsvUtils.csvService = service;
@@ -140,7 +142,7 @@ public class CsvUtils {
         List<String> dataList = new ArrayList<String>();
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"GB2312"));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "GB2312"));
             String line = "";
             while ((line = br.readLine()) != null) {
                 dataList.add(line);
@@ -161,9 +163,10 @@ public class CsvUtils {
 
     /**
      * 插入 Tags 表
+     *
      * @return
      */
-    public static boolean importCsvTags(String companyFilePath){
+    public static boolean importCsvTags(String companyFilePath) {
 //        tagCompanyMapper.insertBatch(CharactersUtils.getTags(companyFilePath));
         //读取完的文件直接删除，清空目录
         try {
@@ -183,12 +186,13 @@ public class CsvUtils {
 
     /**
      * 读取 downTemp 下的 company_csv 文件和分析的数据存入mysql
+     *
      * @return
      */
-    public static boolean importCsvCompany(){
+    public static boolean importCsvCompany() {
         String companyFilePath = null;
         File dir = new File("downTemp");
-        if(dir.exists()) {
+        if (dir.exists()) {
             String[] suffixes = {"csv"};
             Collection<File> listFiles = FileUtils.listFiles(dir, suffixes, true);
             for (File file : listFiles) {
@@ -219,20 +223,21 @@ public class CsvUtils {
 
     /**
      * 读取 downTemp 下的 csv 文件和分析的数据存入mysql（除 company）
+     *
      * @return
      */
-    public static boolean importCsv(){
+    public static boolean importCsv() {
         File dir = new File("downTemp");
-        if(dir.exists()) {
+        if (dir.exists()) {
             String[] suffixes = {"csv"};
             Collection<File> listFiles = FileUtils.listFiles(dir, suffixes, true);
-            for(File file : listFiles) {
+            for (File file : listFiles) {
                 List<String> dataList = importCsv(file);
                 int size = 0;
-                if(!dataList.isEmpty()){
+                if (!dataList.isEmpty()) {
                     size = dataList.get(0).split(",").length;
                     List list = null;
-                    switch (size){
+                    switch (size) {
                         case 4:
                             list = new ArrayList<KnowledgeReport>();
                             break;
@@ -259,7 +264,7 @@ public class CsvUtils {
                                 break;
                         }
                     }
-                    switch (size){
+                    switch (size) {
                         case 4:
                             knowledgeReportMapper.insertBatch(list);
                             break;
@@ -279,7 +284,7 @@ public class CsvUtils {
     /**
      * 清空数据库
      */
-    public static void deleteAll(){
+    public static void deleteAll() {
         knowledgeReportMapper.deleteAll();
         companyMapper.deleteAll();
         moneyReportMapper.deleteAll();
@@ -289,12 +294,12 @@ public class CsvUtils {
     /**
      * 分析数据并调用 importCsv 方法
      */
-    public static boolean analysis(){
+    public static boolean analysis() {
         new Thread(CsvUtils::importCsv).start();
         String fileStr1 = null;
         String fileStr2 = null;
         File dir = new File("downTemp");
-        if(dir.exists()) {
+        if (dir.exists()) {
             String[] suffixes = {"csv"};
             Collection<File> listFiles = FileUtils.listFiles(dir, suffixes, true);
             for (File file : listFiles) {
@@ -320,7 +325,7 @@ public class CsvUtils {
     }
 
     // 2020-3-10 devil 测试添加
-    public static void test() {
+    public static void test() throws IOException {
         String companyFilePath = null;
         String moneyFilePath = null;
         String yearFilePath = null;
@@ -330,29 +335,21 @@ public class CsvUtils {
             String[] suffixes = {"csv"};
             Collection<File> listFiles = FileUtils.listFiles(dir, suffixes, true);
             for (File file : listFiles) {
-                int size = 0;
+                String lineString = "";
                 try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-
-                    final String lineString = br.readLine();
-                    size = lineString.split(",").length;
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    lineString = br.readLine();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                switch (size) {
-                    case 4:
-                        knowledgeFilePath = file.getAbsolutePath();
-                        break;
-                    case 10:
-                        moneyFilePath = file.getAbsolutePath();
-                        break;
-                    case 11:
-                        yearFilePath = file.getAbsolutePath();
-                        break;
-                    case 9:
-                        companyFilePath = file.getAbsolutePath();
-                        break;
+
+                if (lineString.contains("注册资本")) {
+                    companyFilePath = file.getAbsolutePath();
+                } else if (lineString.contains("著作权")) {
+                    knowledgeFilePath = file.getAbsolutePath();
+                } else if (lineString.contains("债权融资额度")) {
+                    moneyFilePath = file.getAbsolutePath();
+                } else if (lineString.contains("所有者权益合计")) {
+                    yearFilePath = file.getAbsolutePath();
                 }
             }
         }
@@ -361,22 +358,36 @@ public class CsvUtils {
         final Map<Integer, Integer> flags = CharactersUtils.getFlags();
         csvService.saveCompanyFlag2File(flags);
         flagsMap = flags;
-        showDataMap = CharactersUtils.getCompanyShowData();
-        scoreBeanList = CharactersUtils.getCompanyScoreList();
-        //提前开线程加载财报数据
-        DataCenterService.getFinancialReport();
-        companyShowDataMapper.insertBatch(showDataMap);
-        companyScoreMapper.insertBatch(scoreBeanList);
 
-        companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
-        final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
-        tagCompanyMapper.insertBatch(tags);
-        knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
-        yearBeanList = CharactersUtils.getYearBeanList();
-        yearReportMapper.insertBatch_(yearBeanList);
-        moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
 
-        //建议 JVM 垃圾回收，优化服务器内存占用
-        System.gc();
+        new Thread(() -> {
+            try {
+                showDataMap = CharactersUtils.getCompanyShowData();
+                scoreBeanList = CharactersUtils.getCompanyScoreList();
+                //提前开线程加载财报数据
+                DataCenterService.getFinancialReport();
+                companyShowDataMapper.insertBatch(showDataMap);
+                companyScoreMapper.insertBatch(scoreBeanList);
+
+                companyMapper.insertBatch_(CharactersUtils.getCompanyBeanList(), flags);
+                final Map<Integer, List<Integer>> tags = CharactersUtils.getTags();
+                tagCompanyMapper.insertBatch(tags);
+                knowledgeReportMapper.insertBatch_(CharactersUtils.getKnowledgeBeanList());
+                yearBeanList = CharactersUtils.getYearBeanList();
+                yearReportMapper.insertBatch_(yearBeanList);
+                moneyReportMapper.insertBatch_(CharactersUtils.getMoneyBeanList());
+                //建议 JVM 垃圾回收，优化服务器内存占用
+                System.gc();
+            } finally {
+                try {
+                    FileUtils.cleanDirectory(new File("downTemp"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }).start();
+
+
     }
 }
